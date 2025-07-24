@@ -1,0 +1,12 @@
+#head{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap:35%
+}
+#login{
+    padding: 10px 15px;
+    color: white;
+    border-radius: 5px;
+    font-weight: 600;
+}

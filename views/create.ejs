@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/style1.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="usercontainer">
+        <h1 class="bg-blue-600">Create user-account</h1>
+        <form action="/user/create" method="post" id="form">
+            <input type="email" name="email" placeholder="Enter your email" required id="email">
+            <input type="password"  minlength="6" name="password" placeholder="Password" required id="password">
+            <input type="text" name="name" placeholder="Enter your name" required id="name">
+            <input type="number" min="5" name="age" placeholder="Enter your age" required id="age">
+            <label for="gender" id="label">Gender</label>
+                <select id="gender" name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="others">others</option>
+                </select>
+            <button class="bg-blue-600 hover:bg-blue-700" type="submit" id="button">Submit details</button>
+        </form>
+        <div class="anc">
+            <a href="/doctor/create">Create account as doctor</a>
+            <a href="/user/login">Already have an account</a>
+        </div>
+    </div>
+    <script>
+        document
+        .getElementById("form")
+        .addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                name: document.getElementById("name").value,
+                age: document.getElementById("age").value,
+                gender: document.getElementById("gender").value,
+            };
+
+            try {
+            const res = await fetch("/user/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await res.json();
+            alert(data.message);
+            } catch (err) {
+            console.error(err);
+            alert("Something went wrong. Try again later.");
+            }
+            document.getElementById("email").value="";
+            document.getElementById("password").value="";
+            document.getElementById("name").value="";
+            document.getElementById("age").value="";
+            document.getElementById("gender").value="";
+        });
+
+
+
+    </script>
+</body>
+</html>

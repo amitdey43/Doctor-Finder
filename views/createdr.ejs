@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/style1.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="usercontainer">
+        <h1 class="bg-blue-600">Create doctor-account</h1>
+        <form action="/doctor/create" id="form" method="post" enctype="multipart/form-data">
+            <input type="email" name="email" placeholder="Enter your email" required id="email">
+            <input type="password" name="password" minlength="6" placeholder="Password" required id="password">
+            <input type="text" name="name" placeholder="Enter your name" required id="name">
+            <label for="specialities" id="label">Select Speciality:</label>
+                <select id="specialities" name="specialities" required>
+                <option value="">--Choose--</option>
+                <option value="General Physician">General Physician</option>
+                <option value="Cardiologist">Cardiologist</option>
+                <option value="Dermatologist">Dermatologist</option>
+                <option value="Pediatrician">Pediatrician</option>
+                <option value="Orthopedic">Orthopedic</option>
+                <option value="Neurologist">Neurologist</option>
+                <option value="ENT Specialist">ENT Specialist</option>
+                <option value="Gynecologist">Gynecologist</option>
+                <option value="Psychiatrist">Psychiatrist</option>
+                <option value="Dentist">Dentist</option>
+                </select>
+            <input type="text" name="clinic" placeholder="Address of  your clinic" required >
+            <input type="number" name="fee" min="0" placeholder="Consultation fee" required >
+            <label for="image"> <input type="file" name="photo" accept="image/*" id="image" required> Profile Picture</label>
+            <button class="bg-blue-600 hover:bg-blue-700" type="submit" id="button">Submit details</button>
+        </form>
+        <div class="anc">
+            <a href="/user/create">Create account as patient</a>
+            <a href="/doctor/login">Already have an account</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById("form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const form = document.getElementById("form");
+        const formData = new FormData(form); 
+
+        try {
+            const res = await fetch("/doctor/create", {
+            method: "POST",
+            body: formData, 
+            });
+
+            const data = await res.json();
+            alert(data.message);
+
+            if (data.success) {
+            form.reset();
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Something went wrong. Try again later.");
+        }
+        });
+</script>
+
+</body>
+</html>

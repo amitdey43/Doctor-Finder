@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/style1.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="usercontainer">
+        <h1 class="bg-blue-600">Login user-account</h1>
+        <form action="/user/login" method="post" id="form">
+            <input type="email" minlength="5" name="email" placeholder="Enter your email" required id="email">
+            <input type="password"  minlength="6" name="password" placeholder="Password" required id="password">
+            <button class="bg-blue-600 hover:bg-blue-700" type="submit" id="button">Submit details</button>
+        </form>
+        <div class="anc">
+            <a href="/doctor/login">Login as doctor</a>
+        </div>
+    </div>
+
+</body>
+</html>
