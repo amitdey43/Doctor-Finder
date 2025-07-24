@@ -4,10 +4,13 @@ const router= express.Router();
 const userModule = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const isloggedin= require("../middleware/custom")
 router.get('/',(req,res)=>{
-    res.render("index");
+    res.render("index",{cookies:req.cookies});
 })
-router.get("/symptoms",(req,res)=>{
+router.get("/symptoms",isloggedin,(req,res)=>{
+    console.log(req.user);
+    
     res.render("symptoms");
 })
 router.get("/create",(req,res)=>{
@@ -69,10 +72,7 @@ router.post("/login",async(req,res)=>{
     let token = await jwt.sign({email:email.trim(),as:"user"},process.env.secret);
     res.cookie("token",token);
     
-    res.send({
-        success: true,
-        message: "User Logged in successfully!"
-    });
+    res.redirect("/user")
 })
 
 module.exports= router

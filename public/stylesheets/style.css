@@ -4,7 +4,7 @@
     align-items: center;
     gap:35%
 }
-#login{
+#login,#logout{
     padding: 10px 15px;
     color: white;
     border-radius: 5px;

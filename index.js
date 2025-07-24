@@ -17,5 +17,9 @@ app.use(CookieParser());
 app.use("/user",userrouter);
 app.use("/doctor",doctorrouter);
 
+app.get("/logout",(req,res)=>{
+    res.cookie("token","");
+    res.redirect("/user");
+})
 
 app.listen(3000);

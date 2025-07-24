@@ -12,7 +12,11 @@
   
   <header class="text-center py-8" id="head">
     <h1 class="text-3xl font-bold text-green-600">SymptoCare</h1>
-    <a href="/user/create" class="bg-blue-600 hover:bg-blue-700" id="login">Create account</a>
+      <% if (cookies && cookies.token) { %>
+        <a href="/logout" class="bg-blue-600 hover:bg-blue-700" id="logout">Logout</a>
+      <% } else { %>
+        <a href="/user/create" class="bg-blue-600 hover:bg-blue-700" id="login">Create account</a>
+      <% } %>
   </header>
 
 

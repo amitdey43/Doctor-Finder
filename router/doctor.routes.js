@@ -16,12 +16,12 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-cloudinary: cloudinary,
-params: {
-folder: 'doctor-finder',
-format: async (req, file) => path.extname(file.originalname).slice(1),
-public_id: (req, file) => file.originalname +"-"+ Date.now(),
-},
+    cloudinary: cloudinary,
+    params: {
+        folder: 'doctor-finder',
+        format: async (req, file) => path.extname(file.originalname).slice(1),
+        public_id: (req, file) => file.originalname +"-"+ Date.now(),
+    },
 });
 
 const upload = multer({ storage: storage });
@@ -90,9 +90,9 @@ router.post("/login",async(req,res)=>{
     let token = await jwt.sign({email:email.trim(),as:"doctor"},process.env.secret);
     res.cookie("token",token);
     
-    res.send({
+    res.send({ 
         success: true,
-        message: "doctor Logged in successfully!"
+        message: "doctor Logged in successfully!",
     });
 })
 module.exports= router 
