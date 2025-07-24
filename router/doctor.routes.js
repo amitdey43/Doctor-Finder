@@ -95,4 +95,4 @@ router.post("/login",async(req,res)=>{
         message: "doctor Logged in successfully!"
     });
 })
-module.exports= router
+module.exports= router 
