@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appointment Confirmation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+    <body class="bg-blue-50 font-sans">
+
+
+    <header class="text-center py-6">
+        <h1 class="text-2xl font-bold text-green-600">
+        
+        SymptoCare
+        </h1>
+    </header>
+
+
+    <main class="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-8 text-center">
+        <div class="mb-4">
+        <div class="flex justify-center mb-2">
+            <div class="bg-green-100 text-green-600 rounded-full p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            </div>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800">Appointment Confirmed!</h2>
+        <p class="text-gray-500">Your appointment has been successfully booked</p>
+        </div>
+
+
+        <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+        <div class="flex items-center gap-4 justify-center mb-4">
+            <img class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-xl" src="<%=doctor.photo%>" alt="" srcset="">
+            <div class="text-left">
+            <h3 class="text-lg font-semibold text-gray-900">Dr. <%=doctor.name%></h3>
+            <p class="text-blue-500"><%=doctor.specialities%></p>
+            <p class="text-sm text-gray-500"><%=doctor.experience%> experience</p>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row flex-wrap gap-4 text-sm text-gray-700 mt-7" style="justify-content: space-between;">
+
+        
+        <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M8 7V3M16 7V3M4 11h16M5 19h14a2 2 0 002-2v-7H3v7a2 2 0 002 2z" />
+            </svg>
+            <span class="font-medium">
+            Date: <%= appo.date.toISOString().slice(0,10) %> | Time: <%= appo.date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) %>
+            </span>
+        </div>
+
+        
+        <div class="flex items-center gap-2" style="margin-right: 5rem;">
+            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3m-3 5v2m0-16v2m6 6h2M4 12H2m3.22-5.22l-1.42-1.42M18.36 18.36l1.42 1.42M5.22 18.36l-1.42 1.42M18.36 5.64l1.42-1.42" />
+            </svg>
+            <span class="font-medium">$<%= doctor.fee %></span>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 8v4l3 3M12 2a10 10 0 100 20 10 10 0 000-20z" />
+            </svg>
+            <span class="font-medium">Upto 30 minutes</span>
+        </div>
+
+        </div>
+
+        </div>
+
+        <div class="bg-white border-t border-gray-200 pt-4">
+        <h4 class="font-semibold text-left mb-2">What's Next?</h4>
+        <ul class="text-left space-y-2 text-gray-600 text-sm">
+            <li><span class="font-bold text-blue-500">1.</span> You'll receive a confirmation email with appointment details</li>
+            <li><span class="font-bold text-blue-500">2.</span> Please arrive 15 minutes early for check-in</li>
+            <li><span class="font-bold text-blue-500">3.</span> Bring a valid ID and your medical insurance card</li>
+        </ul>
+        </div>
+
+    
+        <div class="mt-6 flex justify-center gap-4">
+        <a href="/user" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">🏠 Back to Home</a>
+        <a id="google-calendar-link" target="_blank" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition cursor-pointer"
+            data-name="<%=doctor.name%>"
+            data-time="<%=appo.date%>"
+            data-clinic="<%=doctor.clinic%>"
+            data-details="Consultation with Dr. <%=doctor.name%>. Please join on time. Bring previous prescriptions if available.`"
+        >
+            📅 Add to Calendar
+        </a>
+
+
+        </div>
+    </main>
+    <script>
+          let calendar = document.querySelector("#google-calendar-link");
+          let start= new Date(calendar.dataset.time);
+          let end= new Date(start.getTime() + 30*60000);
+          start = start.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+          end = end.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+          const googleCalendarURL = `https://calendar.google.com/calendar/render?action=TEMPLATE` +
+                `&text=Appointment+with+${encodeURIComponent(calendar.dataset.name)}` +
+                `&dates=${start}/${end}` +
+                `&details=${encodeURIComponent(calendar.dataset.details)}` +
+                `&location=${encodeURIComponent(calendar.dataset.clinic)}`;
+          calendar.href= googleCalendarURL;
+    </script>
+    </body>
+</html>

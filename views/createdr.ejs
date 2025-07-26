@@ -30,6 +30,28 @@
                 </select>
             <input type="text" name="clinic" placeholder="Address of  your clinic" required >
             <input type="number" name="fee" min="0" placeholder="Consultation fee" required >
+            <input type="text" name="experience" minlength="2" placeholder="Experience(e.g. 12 years) required">
+          
+                    <label id="dayss">Select Available Days:</label>
+                    
+        
+            <div class="flex" id="aro">
+                <div class="flex  flex-wrap gap-2 mt-2" id="days">
+                    <label><input type="checkbox" name="availabledays[]" value="Monday"> Monday</label>
+                    <label><input type="checkbox" name="availabledays[]" value="Tuesday"> Tuesday</label>
+                    <label><input type="checkbox" name="availabledays[]" value="Wednesday"> Wednesday</label>
+                    <label><input type="checkbox" name="availabledays[]" value="Thursday"> Thursday</label>
+                    <label><input type="checkbox" name="availabledays[]" value="Friday"> Friday</label>
+                    <label><input type="checkbox" name="availabledays[]" value="Saturday"> Saturday</label>
+                    <label><input type="checkbox" name="availabledays[]" value="Sunday"> Sunday</label>
+                 </div>
+                 <div id="besi">
+                    <label>Opening time <br>  <input required name="starttime"  type="time" name="time" id=""></label>
+                    <label>Closing time  <br> <input required name="endtime"  type="time" name="time" id=""></label>
+                 </div>
+            </div>
+            
+
             <label for="image"> <input type="file" name="photo" accept="image/*" id="image" required> Profile Picture</label>
             <button class="bg-blue-600 hover:bg-blue-700" type="submit" id="button">Submit details</button>
         </form>

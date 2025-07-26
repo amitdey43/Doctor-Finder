@@ -26,5 +26,12 @@ const doctorSchema = mongoose.Schema({
     clinic: String,
     fee:Number,
     photo:String,
+    experience:String,
+    starttime:String,
+    endtime:String,
+    availabledays:[
+        {type: String,
+        default: []}
+    ]
 })
 module.exports= mongoose.model("doctor",doctorSchema);

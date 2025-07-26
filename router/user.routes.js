@@ -5,12 +5,14 @@ const userModule = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const isloggedin= require("../middleware/custom")
-router.get('/',(req,res)=>{
+const doctorModel= require("../models/doctor");
+const appoModel= require("../models/appointment");
+const userModel = require("../models/user");
+const deletee= require("../middleware/deletee")
+router.get('/',deletee,async(req,res)=>{
     res.render("index",{cookies:req.cookies});
 })
-router.get("/symptoms",isloggedin,(req,res)=>{
-    console.log(req.user);
-    
+router.get("/symptoms",isloggedin,deletee,(req,res)=>{ 
     res.render("symptoms");
 })
 router.get("/create",(req,res)=>{
@@ -70,7 +72,11 @@ router.post("/login",async(req,res)=>{
         })
     }
     let token = await jwt.sign({email:email.trim(),as:"user"},process.env.secret);
-    res.cookie("token",token);
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    });
     
     res.redirect("/user")
 })

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SymptoCare - Doctors</title>
+  <link rel="stylesheet" href="/stylesheets/style1.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 text-gray-800 font-sans">
+  <div class="max-w-6xl mx-auto py-8 px-4 md:px-8">
+    
+    
+    <a href="/user/symptoms" class="text-blue-600 text-sm mb-4 inline-block hover:underline">&larr; Back to Symptoms</a>
+
+    
+    <div class="bg-white p-6 rounded-lg shadow mb-8">
+      <h2 class="text-lg font-semibold mb-2">Your Symptoms</h2>
+      <p class="text-base">Headache</p>
+    </div>
+
+    
+    <div>
+      <h3 class="text-xl font-semibold mb-4">Available Doctors</h3>
+
+      <% doctors.forEach((doctor)=>{ %>
+        <div class="bg-white rounded-lg shadow-md p-5 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          
+          
+          <div class="flex items-center gap-4" id="left">
+            <img src="<%= doctor.photo %>" class="w-16 h-16 rounded-full object-cover border" alt="Doctor" />
+            <div>
+              <h4 class="font-semibold text-lg">Dr. <%= doctor.name %></h4>
+              <p class="text-sm text-gray-500"><b><%= doctor.specialities %></b></p>
+              <p class="text-sm text-gray-500"><%= doctor.experience %> experience</p>
+              <p class="text-sm text-gray-500">Clinic: <%= doctor.clinic %></p>
+            </div>
+          </div>
+
+          
+          <div class="text-right md:text-left" id="right">
+            <div class="flex flex-wrap items-center gap-2 text-sm text-gray-700 mb-2">
+              <span class="font-medium">Available Days:</span>
+              <% doctor.availabledays.forEach((day)=>{ %>
+                <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs"><%= day %></span>
+              <% }) %>
+            </div>
+            <b>Time slot: <%= doctor.starttime%> to <%= doctor.endtime%></b>
+            <p class="text-blue-600 font-bold">$<%= doctor.fee %></p>
+            <p class="text-sm text-gray-500 mb-2">per visit</p>
+
+            <%
+              let flag = false;
+              appo.forEach((a) => {
+                if (a.doctorid.toString() === doctor._id.toString()) {
+                  flag = true;
+                }
+              });
+            %>
+            <% if(flag){ %>
+              <div class="w-full">
+                <button disabled class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition text-center">
+                  ✅ Already Booked
+                </button>
+              </div>
+            <% } else { %>
+              <form action="/doctor/khela/<%= doctor.email %>" method="post" id="asolkhela" class="asolkhela space-y-2 w-full">
+                <input required type="datetime-local" name="datetime" class="problem-input border w-full p-2 rounded text-sm" />
+                <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-center">📅 Book Now</button>
+              </form>
+            <% } %>
+
+
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+  </div>
+  <!-- <script>
+  console.log("Script loaded!");
+
+  document.querySelectorAll(".asolkhela").forEach((form) => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      console.log("Submit triggered");
+
+      const formData = new FormData(form);
+      const url = form.action;
+
+      console.log("Sending data to:", url);
+
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          body: formData,
+      });
+
+
+        const text = await res.text();
+        console.log("Raw response text:", text);
+
+        const data = JSON.parse(text);
+
+        if (data.success) {
+          alert("Appointment booked successfully!");
+        } else {
+          alert("Error: " + data.message);
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+        alert("Something went wrong");
+      }
+    });
+  });
+</script> -->
+
+</body>
+
+
+
+</html>
