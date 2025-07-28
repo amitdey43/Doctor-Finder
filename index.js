@@ -9,7 +9,8 @@ const {body,validationResult}= require("express-validator");
 const doctorModel= require("./models/doctor");
 const userModel= require("./models/user");
 const appoModel= require("./models/appointment");
-const deletee= require("./middleware/deletee")
+const deletee= require("./middleware/deletee");
+const deleteee= require("./middleware/deleteee")
 const isloggedin= require("./middleware/custom")
 const jwt = require("jsonwebtoken")
 const bcrypt= require("bcrypt")
@@ -77,7 +78,7 @@ app.get("/kal",isloggedin,deletee,async(req,res)=>{
     let a= await appoModel.find({userid:u._id}).populate("doctorid")
     res.render("kal",{appos:a})
 })
-app.get("/panel",isloggedin,deletee,async(req,res)=>{
+app.get("/panel",isloggedin,deleteee,async(req,res)=>{
     let doctor = await doctorModel.findOne({email:req.user.email});
     let appos = await appoModel.find({doctorid:doctor._id}).populate("userid");
     res.render("panel",{doctor,appos})
@@ -148,7 +149,7 @@ app.post("/panel/edit/:email",
 
     res.redirect("/panel")  
 })
-app.get("/reject/:appoid",deletee,async(req,res)=>{
+app.get("/reject/:appoid",deleteee,async(req,res)=>{
         let a= await appoModel.findOne({_id:req.params.appoid});
         let u= await userModel.findOne({_id:a.userid});
         let d= await doctorModel.findOne({_id:a.doctorid});
@@ -188,7 +189,7 @@ app.get("/reject/:appoid",deletee,async(req,res)=>{
         sendmail(u.email,"⏳ Appointment Request Unavailable – Please Reschedule",rejectMail);
         res.redirect("/panel")
 })
-app.get("/approved/:appoid",deletee,async(req,res)=>{
+app.get("/approved/:appoid",deleteee,async(req,res)=>{
         let a= await appoModel.findOne({_id:req.params.appoid});
         let u= await userModel.findOne({_id:a.userid});
         let d= await doctorModel.findOne({_id:a.doctorid});

@@ -2,10 +2,13 @@
   "name": "hack-pro",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
+"scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon index.js"
-  },
+    "start": "node index.js"
+},
+"engines": {
+  "node": "18.x"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

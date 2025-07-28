@@ -174,11 +174,11 @@ router.get("/list",isloggedin,async (req,res)=>{
             special2= key.specialist;
         }
     })
-    console.log(special1);
-    console.log(special2);
     if(!special1 && !special2){
         special1="General Physician"
     }
+    console.log(special1);
+    console.log(special2);
     let doc= await doctorModel.find({
         $or: [
             {specialities:special1},
@@ -187,7 +187,7 @@ router.get("/list",isloggedin,async (req,res)=>{
     })
     console.log(doc);
     
-    res.render("list",{doctors,appo:a,doc,textarea})
+    res.render("list",{doctors,appo:a,doc,textarea,special1,special2})
 })
 
 router.post("/khela/:email",isloggedin,async(req,res)=>{
