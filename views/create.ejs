@@ -1,69 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/stylesheets/style1.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create User Account</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="usercontainer">
-        <h1 class="bg-blue-600">Create user-account</h1>
-        <form action="/user/create" method="post" id="form">
-            <input type="email" name="email" placeholder="Enter your email" required id="email">
-            <input type="password"  minlength="6" name="password" placeholder="Password" required id="password">
-            <input type="text" name="name" placeholder="Enter your name" required id="name">
-            <input type="number" min="5" name="age" placeholder="Enter your age" required id="age">
-            <label for="gender" id="label">Gender</label>
-                <select id="gender" name="gender" required>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="others">others</option>
-                </select>
-            <button class="bg-blue-600 hover:bg-blue-700" type="submit" id="button">Submit details</button>
-        </form>
-        <div class="anc">
-            <a href="/doctor/create">Create account as doctor</a>
-            <a href="/user/login">Already have an account</a>
-        </div>
+<body class="bg-blue-50 text-gray-800 font-sans">
+
+
+  <header class="text-center py-8 bg-white shadow" style="width:100%;display: flex;align-items: center;justify-content: space-around;" >
+    <div>
+        <h1 class="text-3xl font-bold text-green-600 mb-2">SymptoCare</h1>
+        <p class="text-sm text-gray-600">Create your user account</p>
     </div>
-    <script>
-        document
-        .getElementById("form")
-        .addEventListener("submit", async (e) => {
-            e.preventDefault();
+    <a href="/user" class="inline-block bg-green-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-green-700 transition duration-200">
+        Go Home
+    </a>
 
-            const formData = {
-                email: document.getElementById("email").value,
-                password: document.getElementById("password").value,
-                name: document.getElementById("name").value,
-                age: document.getElementById("age").value,
-                gender: document.getElementById("gender").value,
-            };
+  </header>
 
-            try {
-            const res = await fetch("/user/create", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            });
 
-            const data = await res.json();
-            alert(data.message);
-            } catch (err) {
-            console.error(err);
-            alert("Something went wrong. Try again later.");
-            }
-            document.getElementById("email").value="";
-            document.getElementById("password").value="";
-            document.getElementById("name").value="";
-            document.getElementById("age").value="";
-            document.getElementById("gender").value="";
+  <main class="flex justify-center items-center px-4 py-10">
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">Create User Account</h2>
+
+      <form id="form" method="post" class="space-y-4">
+        <input type="email" id="email" name="email" placeholder="Enter your email" required
+               class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+
+        <input type="password" id="password" name="password" minlength="6" placeholder="Password" required
+               class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+
+        <input type="text" id="name" name="name" placeholder="Enter your name" required
+               class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+
+        <input type="number" id="age" name="age" min="5" placeholder="Enter your age" required
+               class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+
+        <div>
+          <label for="gender" class="block text-gray-700 mb-1">Gender</label>
+          <select id="gender" name="gender" required
+                  class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="others">Others</option>
+          </select>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded font-semibold transition">
+          Submit Details
+        </button>
+      </form>
+
+      <div class="mt-6 text-center space-y-2">
+        <a href="/doctor/create" class="text-blue-600 hover:underline block">Create account as doctor</a>
+        <a href="/user/login" class="text-blue-600 hover:underline block">Already have an account?</a>
+      </div>
+    </div>
+  </main>
+
+
+  <script>
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+        name: document.getElementById("name").value,
+        age: document.getElementById("age").value,
+        gender: document.getElementById("gender").value,
+      };
+
+      try {
+        const res = await fetch("/user/create", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
         });
 
+        const data = await res.json();
+        alert(data.message);
+      } catch (err) {
+        console.error(err);
+        alert("Something went wrong. Try again later.");
+      }
 
+      document.getElementById("form").reset();
+    });
+  </script>
 
-    </script>
 </body>
 </html>

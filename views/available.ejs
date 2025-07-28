@@ -8,14 +8,17 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-blue-50 min-h-screen font-sans" style="display: flex;flex-direction: column;justify-content: start;">
-        <header class="bg-white shadow-md px-4 sm:px-6 py-4 flex justify-around items-center flex-wrap" style="width:100%; height:65px;margin-bottom: 2rem;align-items: center;">
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-green-600 p-0">SymptoCare</h1>
-            <span class="text-base sm:text-lg font-medium text-gray-800">Available Doctors</span>
+        <header class="bg-white shadow-md px-4 sm:px-6 py-4 flex justify-around items-center flex-wrap" style="width:100%; height:70px;margin-bottom: 2rem;align-items: center;">
+  
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-green-600 p-0"  id="symp"><a href="/user" style="border:1px solid black;border-radius: 50%;font-size: medium;padding: 5px;">🔙</a>  SymptoCare</h1>
+            <span class="text-base sm:text-lg font-medium text-gray-800" id="ava">Available Doctors  
+            </span>
         </header>
-        <div>
-             <form action="/available" method="GET" class="flex gap-3 mb-4">
-            <input type="text" name="search" id="search" placeholder="Search doctors..." class="flex-grow p-2 rounded border focus:outline-none bg-white" />
+        <div class="p-3" id="avail" style=" max-width: 1000px;">
+            <form action="/available" method="GET" class="flex gap-3 mb-4" id="formm" >
+            <input type="text" name="search" id="search" placeholder="Search doctors by their name,address,Speciality..." class="flex-grow p-2 rounded border focus:outline-none bg-white" />
             <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Search</button>
+            <button type="button" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" id="doctor">All doctors</button>
             </form>
 
             <div class="mb-6">
@@ -31,13 +34,25 @@
                 <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Gynecologist</button>
                 <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Psychiatrist</button>
                 <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Dentist</button>
+                <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">General Surgeon</button>
+                <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Sexologist</button>
+                <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Oncologist</button>
+                <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Hematologist</button>
+                <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Rheumatologist</button>
+                <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Nephrologist</button>
+                <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Urologist</button>
+                <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Gastroenterologist</button>
+                <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Pulmonologist</button>
+                <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Endocrinologist</button>
+                <button type="button" class="search bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200">Ophthalmologist</button>
+
             </div>
             </div>
         </div>
-    <div>
+    <div class="p-3">
       
       <% doctors.forEach((doctor)=>{ %>
-        <div class="bg-white rounded-lg shadow-md p-5 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="bg-white rounded-lg shadow-md p-5 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4" style="max-width: 600px;">
           
           
           <div class="flex items-center gap-4" id="left">
@@ -45,7 +60,7 @@
             <div>
               <h4 class="font-semibold text-lg">Dr. <%= doctor.name %></h4>
               <p class="text-sm text-gray-500"><b><%= doctor.specialities %></b></p>
-              <p class="text-sm text-gray-500"><%= doctor.experience %> experience</p>
+              <p class="text-sm text-gray-500"><%= doctor.experience %> years experience</p>
               <p class="text-sm text-gray-500">Clinic: <%= doctor.clinic %></p>
             </div>
           </div>
@@ -54,9 +69,13 @@
           <div class="text-right md:text-left" id="right">
             <div class="flex flex-wrap items-center gap-2 text-sm text-gray-700 mb-2">
               <span class="font-medium">Available Days:</span>
-              <% doctor.availabledays.forEach((day)=>{ %>
-                <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs"><%= day %></span>
-              <% }) %>
+              <%if(doctor.availabledays.length < 2){%>
+                <strong>Currently unavailable</strong>
+              <%}else{%>
+                <% doctor.availabledays.forEach((day)=>{ %>
+                  <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs"><%= day %></span>
+                <% }) %>
+              <%}%>
             </div>
             <b>Time slot: <%= doctor.starttime%> to <%= doctor.endtime%></b>
             <p class="text-blue-600 font-bold">$<%= doctor.fee %></p>
@@ -91,10 +110,16 @@
     <script>
         let button= document.querySelectorAll(".search");
         let input= document.querySelector("#search");
+        let drbtn = document.querySelector("#doctor");
+        let form = document.querySelector("#formm");
+
+        drbtn.addEventListener("click",()=>{
+          input.value="";
+          form.submit();
+        })
         button.forEach((b)=>{
             b.addEventListener("click",()=>{
                 input.value= b.innerText;
-                input.form.submit();
             })
         })
     </script>

@@ -1,70 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/stylesheets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SymptoCare</title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-blue-50 text-gray-800 font-sans">
 
-  
-  <header class="text-center py-8" id="head">
-    <h1 class="text-3xl font-bold text-green-600">SymptoCare</h1>
+  <header class="text-center py-4 bg-white shadow-md" id="hello" >
+    <h1 class="text-3xl sm:text-4xl font-bold text-green-600">SymptoCare</h1>
+    <div class="mt-1 space-x-4">
       <% if (cookies && cookies.token) { %>
-        <a href="/logout" class="bg-blue-600 hover:bg-blue-700" id="logout">Logout</a>
+        <a href="/logout" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Logout</a>
       <% } else { %>
-        <a href="/user/create" class="bg-blue-600 hover:bg-blue-700" id="login">Create account</a>
+        <a href="/user/create" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Create account</a>
       <% } %>
+    </div>
   </header>
 
-
-  <section class="text-center px-6 py-10">
-    <h2 class="text-4xl font-extrabold mb-4">
+  <section class="text-center px-4 sm:px-6 md:px-10 py-10">
+    <h2 class="text-3xl sm:text-4xl font-extrabold mb-4 leading-snug">
       Find the Right Doctor <span class="text-blue-600">Instantly</span>
     </h2>
-    <p class="max-w-xl mx-auto text-gray-600 mb-6">
+    <p class="max-w-2xl mx-auto text-gray-600 mb-6 text-base sm:text-lg">
       Enter your symptoms and book the right doctor nearby. Get expert medical care when you need it most.
     </p>
-    <a class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded"
-        href="/user/symptoms"
-    >
+    <a href="/user/symptoms" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg text-base sm:text-lg transition">
       Start Symptom Checker
     </a>
   </section>
 
-
-  <section class="flex flex-col md:flex-row justify-center gap-6 px-6 py-12">
-    <a href="user/symptoms" class="bg-white p-6 rounded-lg shadow text-center max-w-sm mx-auto" style="width:384px">
-      <div class="text-4xl mb-4">🩺</div>
+  <section class="flex flex-col md:flex-row justify-center gap-6 px-4 sm:px-8 py-10">
+    <a href="/user/symptoms" class="bg-white p-6 rounded-2xl shadow-lg text-center w-full max-w-sm mx-auto hover:shadow-xl transition">
+      <div class="text-5xl mb-4">🩺</div>
       <h3 class="text-xl font-bold mb-2">Expert Diagnosis</h3>
-      <p class="text-gray-600">
+      <p class="text-gray-600 text-sm sm:text-base">
         Get matched with the right specialist based on your symptoms.
       </p>
     </a>
 
-    <a href="/kal" class="bg-white p-6 rounded-lg shadow text-center max-w-sm mx-auto" style="width:384px">
-      <div class="text-4xl mb-4">⏱</div>
+    <a href="/kal" class="bg-white p-6 rounded-2xl shadow-lg text-center w-full max-w-sm mx-auto hover:shadow-xl transition">
+      <div class="text-5xl mb-4">⏱</div>
       <h3 class="text-xl font-bold mb-2">My Bookings</h3>
-      <p class="text-gray-600">
+      <p class="text-gray-600 text-sm sm:text-base">
         See all your confirmed bookings and visit details in one place.
       </p>
     </a>
 
-    <a href="/available" class="bg-white p-6 rounded-lg shadow text-center max-w-sm mx-auto" style="width:384px">
-      <div class="text-4xl mb-4">📍</div>
+    <a href="/available" class="bg-white p-6 rounded-2xl shadow-lg text-center w-full max-w-sm mx-auto hover:shadow-xl transition">
+      <div class="text-5xl mb-4">📍</div>
       <h3 class="text-xl font-bold mb-2">Available Doctors</h3>
-      <p class="text-gray-600">
-        Find qualified doctors with specialities
+      <p class="text-gray-600 text-sm sm:text-base">
+        Find qualified doctors with specialties.
       </p>
     </a>
   </section>
 
-
-  <footer class="text-center py-6 bg-white mt-10">
-    <p class="text-green-600 font-medium">Trusted by 50,000+ patients</p>
-    <p class="text-gray-600 mt-2 text-sm">
+  <footer class="text-center py-8 bg-white mt-10 px-4">
+    <p class="text-green-600 font-medium text-lg">Trusted by 50,000+ patients</p>
+    <p class="text-gray-600 mt-2 text-sm max-w-xl mx-auto">
       Your health information is secure and protected. All our doctors are verified and licensed professionals.
     </p>
   </footer>

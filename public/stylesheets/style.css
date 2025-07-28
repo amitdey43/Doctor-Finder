@@ -10,3 +10,49 @@
     border-radius: 5px;
     font-weight: 600;
 }
+#body{
+    position:relative
+}
+#div{
+    text-align: center;
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position:absolute;
+    border-radius: 7px;
+    background-color: rgb(242, 241, 241);
+    padding-top:2rem;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+#button{
+    width:100%;
+    border:1px solid black;
+    height:3rem;
+    border-radius: 0 0 7px 7px;
+    margin-top: 2rem;
+}
+#hello{
+    width:100%;display: flex; align-items: center;justify-content: space-between;padding-left:5rem;padding-right:5rem;
+}
+@media (max-width:570px) {
+    #hello{
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+@media (max-width:420px) {
+    #hello{
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+

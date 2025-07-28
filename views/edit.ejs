@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Doctor Account</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-blue-50 flex items-center justify-center px-4" >
+  <div class="w-full max-w-2xl bg-white rounded-xl shadow-lg p-6 space-y-6">
+    
+<header class="text-center py-8 bg-white shadow" style="width:100%;display: flex;align-items: center;justify-content: space-around;" >
+    <div>
+        <h1 class="text-3xl font-bold text-green-600 mb-2">SymptoCare</h1>
+    </div>
+    <a href="/panel" class="inline-block bg-green-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-green-700 transition duration-200">
+        Go Home
+    </a>
+
+  </header>
+    <h2 class="text-xl font-bold text-center text-blue-700">Edit Doctor Account</h2>
+
+    <form action="/panel/edit/<%=doctor.email%>" method="post" enctype="multipart/form-data" id="form" class="space-y-4">
+
+      <input type="text" name="name" placeholder="Enter your name" required value="<%=doctor.name%>" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+
+      <label for="specialities" class="block text-sm font-medium text-gray-700">Select Speciality</label>
+      <select name="specialities" id="specialities" required class="w-full px-4 py-2 border rounded-md">
+        <option value="">--Choose--</option>
+        <option value="General Physician" <%=doctor.specialities =="General Physician" ?"selected":""%>>General Physician</option>
+        <option value="Cardiologist" <%=doctor.specialities =="Cardiologist" ?"selected":""%>>Cardiologist</option>
+        <option value="Dermatologist" <%=doctor.specialities =="Dermatologist" ?"selected":""%>>Dermatologist</option>
+        <option value="Pediatrician" <%=doctor.specialities =="Pediatrician" ?"selected":""%>>Pediatrician</option>
+        <option value="Orthopedic" <%=doctor.specialities =="Orthopedic" ?"selected":""%>>Orthopedic</option>
+        <option value="Neurologist" <%=doctor.specialities =="Neurologist" ?"selected":""%>>Neurologist</option>
+        <option value="ENT Specialist" <%=doctor.specialities =="ENT Specialist" ?"selected":""%>>ENT Specialist</option>
+        <option value="Gynecologist" <%=doctor.specialities =="Gynecologist" ?"selected":""%>>Gynecologist</option>
+        <option value="Psychiatrist" <%=doctor.specialities =="Psychiatrist" ?"selected":""%>>Psychiatrist</option>
+        <option value="Dentist" <%=doctor.specialities =="Dentist" ?"selected":""%>>Dentist</option>
+        <option value="General Surgeon" <%=doctor.specialities =="General Surgeon" ?"selected":""%>>General Surgeon</option>
+        <option value="Sexologist" <%=doctor.specialities =="Sexologist" ?"selected":""%>>Sexologist</option>
+        <option value="Oncologist" <%=doctor.specialities =="Oncologist" ?"selected":""%>>Oncologist</option>
+        <option value="Hematologist" <%=doctor.specialities =="Hematologist" ?"selected":""%>>Hematologist</option>
+        <option value="Rheumatologist" <%=doctor.specialities =="Rheumatologist" ?"selected":""%>>Rheumatologist</option>
+        <option value="Nephrologist" <%=doctor.specialities =="Nephrologist" ?"selected":""%>>Nephrologist</option>
+        <option value="Urologist" <%=doctor.specialities =="Urologist" ?"selected":""%>>Urologist</option>
+        <option value="Gastroenterologist" <%=doctor.specialities =="Gastroenterologist" ?"selected":""%>>Gastroenterologist</option>
+        <option value="Pulmonologist" <%=doctor.specialities =="Pulmonologist" ?"selected":""%>>Pulmonologist</option>
+        <option value="Endocrinologist" <%=doctor.specialities =="Endocrinologist" ?"selected":""%>>Endocrinologist</option>
+        <option value="Ophthalmologist" <%=doctor.specialities =="Ophthalmologist" ?"selected":""%>>Ophthalmologist</option>
+
+      </select>
+
+      <input type="text" name="clinic" placeholder="Address of your clinic" required value="<%=doctor.clinic%>" class="w-full px-4 py-2 border rounded-md" />
+      
+      <input type="number" name="fee" min="0" placeholder="Consultation fee" required value="<%=doctor.fee%>" class="w-full px-4 py-2 border rounded-md" />
+
+      <input type="text" name="experience" minlength="2" placeholder="Experience (e.g. 12 years)" required value="<%=doctor.experience%>" class="w-full px-4 py-2 border rounded-md" />
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Available Days:</label>
+        <div class="flex flex-wrap gap-2 mt-2">
+          <label><input type="checkbox" name="availabledays[]" value="Monday" <%=doctor.availabledays.includes("Monday")?"checked":""%>> Monday</label>
+          <label><input type="checkbox" name="availabledays[]" value="Tuesday" <%=doctor.availabledays.includes("Tuesday")?"checked":""%>> Tuesday</label>
+          <label><input type="checkbox" name="availabledays[]" value="Wednesday" <%=doctor.availabledays.includes("Wednesday")?"checked":""%>> Wednesday</label>
+          <label><input type="checkbox" name="availabledays[]" value="Thursday" <%=doctor.availabledays.includes("Thursday")?"checked":""%>> Thursday</label>
+          <label><input type="checkbox" name="availabledays[]" value="Friday" <%=doctor.availabledays.includes("Friday")?"checked":""%>> Friday</label>
+          <label><input type="checkbox" name="availabledays[]" value="Saturday" <%=doctor.availabledays.includes("Saturday")?"checked":""%>> Saturday</label>
+          <label><input type="checkbox" name="availabledays[]" value="Sunday" <%=doctor.availabledays.includes("Sunday")?"checked":""%>> Sunday</label>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-4">
+        <label class="w-full">Opening Time
+          <input required name="starttime" type="time" value="<%=doctor.starttime%>" class="w-full mt-1 px-4 py-2 border rounded-md" />
+        </label>
+        <label class="w-full">Closing Time
+          <input required name="endtime" type="time" value="<%=doctor.endtime%>" class="w-full mt-1 px-4 py-2 border rounded-md" />
+        </label>
+      </div>
+
+      <div>
+        <label for="image" class="block text-sm font-medium text-gray-700">Change Profile Picture</label>
+        <input type="file" name="photo" accept="image/*" id="image" class="mt-1" />
+      </div>
+
+      <button type="submit" id="button" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">Submit Details</button>
+    </form>
+  </div>
+  <!-- <script>
+        document.getElementById("form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const form = document.getElementById("form");
+        const formData = new FormData(form); 
+        const url= form.action;
+        try {
+            const res = await fetch(url, {
+            method: "POST",
+            body: formData, 
+            });
+
+            const data = await res.json();
+            alert(data.message);
+
+            if (data.success) {
+            form.reset();
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Something went wrong. Try again later.");
+        }
+        });
+    </script> -->
+
+</body>
+</html>

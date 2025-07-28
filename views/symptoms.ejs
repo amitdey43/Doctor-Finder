@@ -11,23 +11,31 @@
 
   <main class="max-w-3xl mx-auto px-6 py-12">
 
-    <section class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-green-600">Describe Your Symptoms</h1>
-      <p class="text-lg text-gray-700 mt-2">
+    <section class="text-center mb-8 bg-blue-50 py-8 rounded-lg shadow-sm relative">
+      <a href="/user" class="absolute left-4 top-4 border border-gray-400 rounded-full px-3 py-1 text-sm text-purple-700 hover:bg-purple-100 transition">
+        🔙 BACK
+      </a>
+      <h1 class="text-4xl font-bold text-green-600 " style="padding-top: 2rem;">Describe Your Symptoms</h1>
+      <p class="text-lg text-gray-700 mt-2 max-w-xl mx-auto">
         Tell us what you're experiencing so we can recommend the right specialist
       </p>
     </section>
 
+
     <section class="bg-white p-6 rounded-lg shadow-md mb-8">
       <h2 class="text-xl font-semibold mb-4">Symptom Checker</h2>
       <label for="symptomTextarea" class="block text-gray-700 font-medium mb-2">
-        What symptoms are you experiencing?
+        What problems are you experiencing?
       </label>
+  <form action="/doctor/list" method="GET">
       <textarea
+        name="textarea"
         id="symptomTextarea"
         rows="4"
         class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
-        placeholder="Please describe your symptoms in detail..."
+        placeholder="Please describe your problems in detail..."
+        required
+        style="resize: none;"
       ></textarea>
     </section>
 
@@ -54,10 +62,11 @@
     </section>
 
     <section class="text-center">
-      <a href="/doctor/list" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">
+      <button type="submit" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded">
         Find Doctors
-      </a>
+      </button>
     </section>
+  </form>
   </main>
   <script>
     let uff= (e)=>{

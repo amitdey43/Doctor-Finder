@@ -4,10 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Appointment Confirmation</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-    <body class="bg-blue-50 font-sans">
-
+    <body class="bg-blue-50 font-sans" id="body">
+    <div  id="div">
+        <p>A confirmation mail has been sent to your email.<br>You need to show it to the doctor at the time of your appointment.</p>
+        <button id="button">OK</button>
+    </div>
 
     <header class="text-center py-6">
         <h1 class="text-2xl font-bold text-green-600">
@@ -100,6 +104,11 @@
         </div>
     </main>
     <script>
+          let div= document.querySelector("#div");
+          let button= document.querySelector("#button");
+          button.addEventListener("click",()=>{
+            div.style.cssText= "display:none;opacity:0"
+          })
           let calendar = document.querySelector("#google-calendar-link");
           let start= new Date(calendar.dataset.time);
           let end= new Date(start.getTime() + 30*60000);

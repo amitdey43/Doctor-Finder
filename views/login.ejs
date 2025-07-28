@@ -1,24 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/stylesheets/style1.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - SymptoCare</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="usercontainer">
-        <h1 class="bg-blue-600">Login user-account</h1>
-        <form action="/user/login" method="post" id="form">
-            <input type="email" minlength="5" name="email" placeholder="Enter your email" required id="email">
-            <input type="password"  minlength="6" name="password" placeholder="Password" required id="password">
-            <button class="bg-blue-600 hover:bg-blue-700" type="submit" id="button">Submit details</button>
-        </form>
-        <div class="anc">
-            <a href="/doctor/login">Login as doctor</a>
-        </div>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center" style="display: flex;flex-direction: column;justify-content: start;">
+  <header class="text-center py-8 bg-white shadow" style="width:100%;display: flex;align-items: center;justify-content: space-around;" >
+    <div>
+        <h1 class="text-3xl font-bold text-green-600 mb-2">SymptoCare</h1>
+        <p class="text-sm text-gray-600">Login your user account</p>
     </div>
+    <a href="/user" class="inline-block bg-green-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-green-700 transition duration-200">
+        Go Home
+    </a>
 
+  </header>
+
+  <main class="w-full max-w-md mt-10 bg-white p-6 rounded-2xl shadow-md">
+    <form action="/user/login" method="post" id="form" class="space-y-4">
+      <input
+        type="email"
+        minlength="5"
+        name="email"
+        placeholder="Enter your email"
+        required
+        id="email"
+        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <input
+        type="password"
+        minlength="6"
+        name="password"
+        placeholder="Password"
+        required
+        id="password"
+        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <button
+        type="submit"
+        id="button"
+        class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition"
+      >
+        Submit Details
+      </button>
+    </form>
+    <div class="mt-4 text-center">
+      <a href="/doctor/login" class="text-blue-600 hover:underline">Login as doctor</a>
+    </div>
+  </main>
 </body>
 </html>

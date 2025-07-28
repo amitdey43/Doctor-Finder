@@ -59,15 +59,15 @@ router.post("/login",async(req,res)=>{
     let {email,password} = req.body;
     let u = await userModule.findOne({email:email.trim()});
     if(!u){
-        return res.status(400).send({
-            success:false,
+        return res.status(400).render("page3",{
+        
             message:"Somthing went wrong",
         })
     }
     let c = await bcrypt.compare(password,u.password);
     if(!c){
-        return res.status(400).send({
-            success:false,
+        return res.status(400).render("page3",{
+        
             message:"Somthing went wrong",
         })
     }

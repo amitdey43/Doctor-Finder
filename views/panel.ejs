@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <header class="bg-blue-500 text-white px-4 py-6 shadow-md">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+
+      <div class="flex items-center gap-2">
+        <span class="text-3xl font-bold text-green-300">SymptoCare</span>
+      </div>
+
+      <div class="flex flex-col items-center md:flex-row md:items-center gap-4">
+        <img src="<%=doctor.photo%>" alt="Doctor Photo" class="w-14 h-14 rounded-full border-2 border-white" />
+        <div class="text-center md:text-left">
+          <h1 class="text-xl font-bold">Welcome Dr. <%=doctor.name %></h1>
+          <p class="text-sm">Speciality: <%=doctor.specialities %></p>
+          <p class="text-sm">Clinic Address: <%=doctor.clinic %></p>
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <a href="/panel/edit" class="bg-yellow-400 hover:bg-yellow-500 text-white px-5 py-2 rounded text-sm" style="font-weight: 700;">Edit Profile</a>
+        <a href="/logout" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded text-sm" style="font-weight: 700;">Logout</a>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto mt-8 px-4">
+    <h2 class="text-xl font-semibold mb-4 border-b pb-2">Upcoming Appointments</h2>
+
+    <div class="bg-white shadow-md rounded p-4 space-y-4">
+        <%appos.forEach((appo)=>{%>
+            <div class="border-b pb-2">
+              <p><strong>Patient:</strong> <%=appo.userid.name%></p>
+              <p><strong>Email:</strong> <%=appo.userid.email%></p>
+              <p><strong>Date:</strong> <%= appo.date.toLocaleDateString() %></p>
+              <p><strong>Time:</strong> <%= appo.date.toLocaleTimeString() %></p>
+            </div>
+        <%})%>
+
+      
+    </div>
+  </main>
+
+  <footer class="text-center mt-10 text-sm text-gray-400 px-4">
+    &copy; 2025 SymptoCare. All rights reserved.
+  </footer>
+</body>
+</html>

@@ -15,7 +15,18 @@ const doctorSchema = mongoose.Schema({
         "ENT Specialist",
         "Gynecologist",
         "Psychiatrist",
-        "Dentist"
+        "Dentist",
+        "General Surgeon",
+        "Sexologist",
+        "Oncologist",
+        "Hematologist",
+        "Rheumatologist",
+        "Nephrologist",
+        "Urologist",
+        "Gastroenterologist",
+        "Pulmonologist",
+        "Endocrinologist",
+        "Ophthalmologist"
         ],
         required: true
     },
