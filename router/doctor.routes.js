@@ -251,31 +251,30 @@ router.post("/khela/:email",isloggedin,async(req,res)=>{
     await d.save();
     const msg = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; color: #333;">
-        <h2 style="color: #2e86de;">🩺 SymptoCare - Appointment Confirmation</h2>
+        <h2 style="color: #f39c12;">⏳ SymptoCare - Appointment Request Pending</h2>
         
         <p>Dear Patient,</p>
         
-        <p>Your appointment with <strong>Dr. ${d.name}</strong> has been <strong>successfully confirmed</strong>.</p>
+        <p>Your appointment request with <strong>Dr. ${d.name}</strong> has been <strong>successfully received</strong> and is currently <strong>pending confirmation</strong>.</p>
 
         <h3>👨‍⚕️ Doctor Details:</h3>
         <ul>
-        <li><strong>Name:</strong> Dr. ${d.name}</li>
-        <li><strong>Specialties:</strong> ${d.specialities}</li>
-        <li><strong>Clinic Address:</strong> ${d.clinic}</li>
-        <li><strong>Consultation Fee:</strong> ₹${d.fee} (Pay at clinic)</li>
+            <li><strong>Name:</strong> Dr. ${d.name}</li>
+            <li><strong>Specialties:</strong> ${d.specialities}</li>
+            <li><strong>Clinic Address:</strong> ${d.clinic}</li>
+            <li><strong>Consultation Fee:</strong> ₹${d.fee} (Pay at clinic)</li>
         </ul>
 
-        <h3>📅 Appointment Details:</h3>
+        <h3>📅 Requested Appointment Details:</h3>
         <ul>
-        <li><strong>Date:</strong> ${datet.toLocaleDateString()}</li>
-        <li><strong>Time Slot:</strong> ${datet.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – ${new Date(datet.getTime() + 30*60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</li>
-
-        <li><strong>Duration:</strong> 30 minutes (approx.)</li>
+            <li><strong>Date:</strong> ${datet.toLocaleDateString()}</li>
+            <li><strong>Preferred Time Slot:</strong> ${datet.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – ${new Date(datet.getTime() + 30*60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</li>
+            <li><strong>Duration:</strong> 30 minutes (approx.)</li>
         </ul>
 
-        <p>Please make sure to reach the clinic at least <strong>10 minutes before</strong> your scheduled time. Payment is to be made <strong>offline at the clinic</strong>.</p>
+        <p>We will notify you by email once your appointment is confirmed by the doctor. Kindly wait for the confirmation before visiting the clinic.</p>
 
-        <p>If you have any questions, feel free to reply to this email.</p>
+        <p>If you have any questions or need to make changes, feel free to reply to this email.</p>
 
         <br/>
         <p style="color: #555;">Thank you,<br/>
@@ -285,34 +284,37 @@ router.post("/khela/:email",isloggedin,async(req,res)=>{
         <small style="color: #999;">This is an automated email. Please do not reply directly to this message.</small>
     </div>
     `;
-    sendmail(req.user.email,"SymptoCare Booking Confirmation",msg)
+
+    sendmail(req.user.email,"SymptoCare Booking Status",msg)
     const doctorMsg = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; color: #333;">
-        <h2 style="color: #e67e22;">👨‍⚕️ New Appointment Notification</h2>
+        <h2 style="color: #e67e22;">⏳ Appointment Request Received</h2>
         
         <p>Dear Dr. ${d.name},</p>
         
-        <p>You have a new appointment booked through <strong>SymptoCare</strong>.</p>
+        <p>A patient has requested an appointment through <strong>SymptoCare</strong>. Please review the request and take necessary action.</p>
 
-        <h3>📅 Appointment Details:</h3>
+        <h3>📅 Requested Appointment Details:</h3>
         <ul>
             <li><strong>Patient Name:</strong> ${uuser.name}</li>
             <li><strong>Patient Email:</strong> ${uuser.email}</li>
             <li><strong>Date:</strong> ${datet.toLocaleDateString()}</li>
-            <li><strong>Time Slot:</strong> ${datet.toLocaleTimeString()} – ${(new Date(datet.getTime() + 30 * 60000)).toLocaleTimeString()}</li>
+            <li><strong>Time Slot:</strong> ${datet.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – ${(new Date(datet.getTime() + 30 * 60000)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</li>
         </ul>
 
-        <p>Please be ready to receive the patient at your clinic located at:</p>
-        <p><strong>${d.clinic}</strong></p>
+        <p>Please log in to the <strong>SymptoCare Doctor Dashboard</strong> to view your appointment list and <strong>confirm or reject</strong> this request.</p>
 
-        <p>Fees will be collected offline at the clinic.</p>
+        <p><strong>Clinic Address:</strong> ${d.clinic}</p>
+        <p><strong>Consultation Fee:</strong> ₹${d.fee} (to be collected at clinic)</p>
 
         <br/>
         <p style="color: #555;">Thanks,<br/>SymptoCare System</p>
+        
         <hr style="margin-top: 30px;">
-        <small style="color: #999;">This is an automated email for appointment notification.</small>
+        <small style="color: #999;">This is an automated email for appointment requests. Please do not reply directly.</small>
     </div>
     `;
+
 
     sendmail(d.email, "SymptoCare - New Patient Appointment", doctorMsg);
 

@@ -34,16 +34,42 @@
   </header>
 
   <main class="max-w-4xl mx-auto mt-8 px-4">
-    <h2 class="text-xl font-semibold mb-4 border-b pb-2">Upcoming Appointments</h2>
-
+    <h2 class="text-xl font-semibold mb-4 border-b pb-2">Upcoming Appointments List</h2>
     <div class="bg-white shadow-md rounded p-4 space-y-4">
         <%appos.forEach((appo)=>{%>
+          <%if(appo.status== "approved"){%>
             <div class="border-b pb-2">
               <p><strong>Patient:</strong> <%=appo.userid.name%></p>
               <p><strong>Email:</strong> <%=appo.userid.email%></p>
               <p><strong>Date:</strong> <%= appo.date.toLocaleDateString() %></p>
               <p><strong>Time:</strong> <%= appo.date.toLocaleTimeString() %></p>
             </div>
+          <%}%>
+        <%})%>
+
+      
+    </div>
+
+    <h2 class="text-xl font-semibold mb-4 border-b pb-2">Pending Appointments List</h2>
+    <div class="bg-white shadow-md rounded p-4 space-y-4">
+        <%appos.forEach((appo)=>{%>
+          <%if(appo.status== "pending"){%>
+            <div class="border-b pb-2" >
+              <div>
+                <p><strong>Patient:</strong> <%=appo.userid.name%></p>
+                <p><strong>Email:</strong> <%=appo.userid.email%></p>
+                <p><strong>Date:</strong> <%= appo.date.toLocaleDateString() %></p>
+                <p><strong>Time:</strong> <%= appo.date.toLocaleTimeString() %></p>
+              </div>
+              <div class="flex gap-3 mt-3">
+                <a href="/reject/<%=appo._id%>" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded text-sm" style="font-weight: 700; ">Reject</a>
+                <a href="/approved/<%=appo._id%>" class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded text-sm" style="font-weight: 700;">Approved</a>
+              </div>
+            </div>
+            <div>
+
+            </div>
+          <%}%>
         <%})%>
 
       

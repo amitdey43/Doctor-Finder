@@ -166,7 +166,7 @@ module.exports = [
     keywords: [
       "appendicitis", "hernia", "gallstones", "gallbladder pain", "abdominal mass", "cyst", "lump", "abscess", "anal pain", "hemorrhoids", "piles", "fissure", "fistula", "wound", "surgical wound", "biopsy", "infection", "cut", "swelling",
       // Layman terms
-      "belly hurts right side","stomach pain", "bumble in belly", "piles pain"
+      "belly hurts right side","stomach pain", "bumble in belly", "piles pain"," belly hurt", "belly pain"
     ],
     specialist: "General Surgeon",
   }

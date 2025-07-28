@@ -10,6 +10,11 @@ let appoModel = mongoose.Schema({
     },
     date: {
         type:Date,
+    },
+    status:{
+        type: String,
+        enum: ["pending","approved"],
+        default:"pending",
     }
 })
 module.exports= mongoose.model("appo",appoModel);

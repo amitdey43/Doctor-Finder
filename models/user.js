@@ -8,6 +8,6 @@ const userSchema = mongoose.Schema({
         {type: mongoose.Schema.Types.ObjectId,
         ref: "doctor"}
     ],
-    gender:String
+    gender:String,
 })
 module.exports= mongoose.model("user",userSchema);

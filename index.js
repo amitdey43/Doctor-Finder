@@ -17,6 +17,7 @@ const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
 const CookieParser = require('cookie-parser');
+const sendmail = require('./email/conformationtouser');
 mongo();
 
 app.set('view engine','ejs');
@@ -76,7 +77,7 @@ app.get("/kal",isloggedin,deletee,async(req,res)=>{
     let a= await appoModel.find({userid:u._id}).populate("doctorid")
     res.render("kal",{appos:a})
 })
-app.get("/panel",isloggedin,async(req,res)=>{
+app.get("/panel",isloggedin,deletee,async(req,res)=>{
     let doctor = await doctorModel.findOne({email:req.user.email});
     let appos = await appoModel.find({doctorid:doctor._id}).populate("userid");
     res.render("panel",{doctor,appos})
@@ -146,5 +147,84 @@ app.post("/panel/edit/:email",
 
 
     res.redirect("/panel")  
+})
+app.get("/reject/:appoid",deletee,async(req,res)=>{
+        let a= await appoModel.findOne({_id:req.params.appoid});
+        let u= await userModel.findOne({_id:a.userid});
+        let d= await doctorModel.findOne({_id:a.doctorid});
+        await userModel.findOneAndUpdate({_id:a.userid},{
+            drList: u.drList.filter((dr)=>dr.toString() != d._id.toString())
+        })
+        await doctorModel.findOneAndUpdate({_id:a.doctorid},{
+            userList: d.userList.filter((user)=>user.toString() != u._id.toString())
+        })
+        await appoModel.findOneAndDelete({_id:req.params.appoid});
+        const rejectMail = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; color: #333;">
+            <h2 style="color: #e74c3c;">❌ SymptoCare - Appointment Request Rejected</h2>
+
+            <p>Dear ${u.name},</p>
+
+            <p>We regret to inform you that your appointment request with <strong>Dr. ${d.name}</strong> has been <strong>rejected</strong>.</p>
+
+            <h3>📅 Requested Appointment Details:</h3>
+            <ul>
+                <li><strong>Date:</strong> ${a.date.toLocaleDateString()}</li>
+                <li><strong>Time Slot:</strong> ${a.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – ${new Date(a.date.getTime() + 30 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</li>
+            </ul>
+
+            <p><strong>Reason:</strong> The doctor is unavailable at the selected time slot.</p>
+
+            <p>You may try booking another time slot or choose a different doctor from the SymptoCare platform.</p>
+
+            <br/>
+            <p style="color: #555;">We apologize for the inconvenience.<br/>
+            SymptoCare Team</p>
+
+            <hr style="margin-top: 30px;">
+            <small style="color: #999;">This is an automated email. Please do not reply directly to this message.</small>
+        </div>
+        `;
+        sendmail(u.email,"⏳ Appointment Request Unavailable – Please Reschedule",rejectMail);
+        res.redirect("/panel")
+})
+app.get("/approved/:appoid",deletee,async(req,res)=>{
+        let a= await appoModel.findOne({_id:req.params.appoid});
+        let u= await userModel.findOne({_id:a.userid});
+        let d= await doctorModel.findOne({_id:a.doctorid});
+        a.status= "approved";
+        await a.save();
+        const msg = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; color: #333;">
+            <h2 style="color: #2ecc71;">✅ SymptoCare - Appointment Confirmed</h2>
+            <p>Dear ${u.name},</p>
+
+            <p>Your appointment request with <strong>Dr. ${d.name}</strong> has been <strong>approved</strong>.</p>
+
+            <h3>📅 Appointment Details:</h3>
+            <ul>
+                <li><strong>Date:</strong> ${a.date.toLocaleDateString()}</li>
+                <li><strong>Time Slot:</strong> ${a.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – ${new Date(a.date.getTime() + 30 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</li>
+                <li><strong>Duration:</strong> 30 minutes (approx.)</li>
+            </ul>
+
+            <h3>👨‍⚕️ Doctor Info:</h3>
+            <ul>
+                <li><strong>Name:</strong> Dr. ${d.name}</li>
+                <li><strong>Specialties:</strong> ${d.specialities}</li>
+                <li><strong>Clinic Address:</strong> ${d.clinic}</li>
+                <li><strong>Consultation Fee:</strong> ₹${d.fee}</li>
+            </ul>
+
+            <p>Please reach the clinic <strong>10 minutes early</strong>. Payment is to be made offline.</p>
+
+            <br/>
+            <p style="color: #555;">Thanks,<br/>SymptoCare Team</p>
+            <hr style="margin-top: 30px;">
+            <small style="color: #999;">This is an automated email. Please do not reply directly.</small>
+        </div>
+        `;
+        sendmail(u.email,"✅ Appointment Confirmed - SymptoCare",msg)
+        res.redirect("/panel");
 })
 app.listen(3000);

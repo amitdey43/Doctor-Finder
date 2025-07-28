@@ -59,19 +59,22 @@
             <p class="text-sm text-gray-500 mb-2">per visit</p>
 
             <%
-              let flag = false;
+              let flag = false,mappo;
               appo.forEach((a) => {
                 if (a.doctorid.toString() === doctor._id.toString()) {
                   flag = true;
+                  mappo=a;
                 }
               });
             %>
             <% if(flag){ %>
-              <div class="w-full">
-                <button disabled class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition text-center">
-                  ✅ Already Booked
-                </button>
-              </div>
+              <button disabled class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition text-center">
+                  <% if (mappo.status === "pending") { %>
+                      <p>🔃 Request: Pending</p>
+                  <% } else { %>
+                      <p>✅ Already Booked</p>
+                  <% } %>
+              </button>
             <% } else { %>
               <form action="/doctor/khela/<%= doctor.email %>" method="post" id="asolkhela" class="asolkhela space-y-2 w-full">
                 <input required type="datetime-local" name="datetime" class="problem-input border w-full p-2 rounded text-sm" />
@@ -120,19 +123,22 @@
             <p class="text-sm text-gray-500 mb-2">per visit</p>
 
             <%
-              let flag = false;
+              let flag = false,mappo;
               appo.forEach((a) => {
                 if (a.doctorid.toString() === doctor._id.toString()) {
                   flag = true;
+                  mappo=a;
                 }
               });
             %>
             <% if(flag){ %>
-              <div class="w-full">
-                <button disabled class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition text-center">
-                  ✅ Already Booked
-                </button>
-              </div>
+              <button disabled class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition text-center">
+                  <% if (mappo.status === "pending") { %>
+                      <p>🔃 Request: Pending</p>
+                  <% } else { %>
+                      <p>✅ Already Booked</p>
+                  <% } %>
+              </button>
             <% } else { %>
               <form action="/doctor/khela/<%= doctor.email %>" method="post" id="asolkhela" class="asolkhela space-y-2 w-full">
                 <input required type="datetime-local" name="datetime" class="problem-input border w-full p-2 rounded text-sm" />
