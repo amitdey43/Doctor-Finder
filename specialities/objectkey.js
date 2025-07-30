@@ -158,7 +158,7 @@ module.exports = [
     keywords: [
       "low libido", "premature ejaculation", "erectile dysfunction", "infertility", "hormone imbalance",
       // Layman terms
-      "can't perform", "low sex drive"
+      "can't perform", "low sex drive", "porn"
     ],
     specialist: "Sexologist",
   },
