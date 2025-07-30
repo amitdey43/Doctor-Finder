@@ -1,54 +1,49 @@
-# Doctor Finder: Connecting Patients with the Right Doctors 🌟
+# Doctor Finder: Connecting Patients with the Right Doctors 🧬
 ![thumbnail](./public/assets/landingPage-76a3571c-3790-4551-9082-da681141b7fe)
 
 ## 🗂️ Description
 
-Doctor Finder is a web application designed to bridge the gap between patients and healthcare professionals. It allows users to find and book appointments with suitable doctors based on their symptoms, specialty, and availability. The platform aims to streamline the process of seeking medical care, making it more efficient and accessible for both patients and doctors.
+Doctor Finder is a web application designed to connect patients with suitable doctors based on their symptoms and medical needs. The platform allows users to describe their symptoms, find relevant doctors, and book appointments seamlessly. It also provides doctors with a panel to manage their profiles, view appointments, and interact with patients. Built with Express.js, MongoDB, and EJS templating, Doctor Finder aims to streamline the process of finding and booking medical appointments.
 
 ## ✨ Key Features
 
 ### **User Features** 🌟
-- **Symptom Checker**: Users can describe their symptoms and find relevant doctors.
-- **Doctor Listings**: Browse through a list of available doctors, filterable by specialty, location, and more.
-- **Appointment Booking**: Schedule appointments with chosen doctors.
+- **Symptom Checker**: Users can describe their symptoms and find doctors with relevant specialties.
+- **Appointment Booking**: Users can book appointments with doctors directly through the platform.
 - **Profile Management**: Users can manage their profiles, including updating personal details.
 
-### **Doctor Features** 💼
-- **Profile Creation**: Doctors can create profiles showcasing their specialty, experience, and availability.
-- **Appointment Management**: View and manage scheduled appointments.
-- **Profile Editing**: Update profile information, including specialty, clinic details, and availability.
+### **Doctor Features** 👨‍⚕️
+- **Profile Creation**: Doctors can create profiles, including details like specialty, clinic, and availability.
+- **Appointment Management**: Doctors can view and manage their appointments.
+- **Edit Profile**: Doctors can update their profile information.
+
+### **Core Features** 🔥
+- **Authentication**: Secure login and registration for both users and doctors.
+- **Email Notifications**: Automated email notifications for appointment confirmations and updates.
 
 ## 🗂️ Folder Structure
 
 ```mermaid
 graph TD;
     src-->config;
-    src-->models;
+    src-->controllers;
     src-->middleware;
+    src-->models;
     src-->router;
     src-->views;
     src-->email;
-    src-->days;
     src-->specialities;
-    src-->index.js;
-    config-->db.js;
-    models-->user.js;
-    models-->doctor.js;
-    models-->appointment.js;
-    middleware-->custom.js;
-    middleware-->deletee.js;
-    router-->user.routes.js;
-    router-->doctor.routes.js;
+    src-->days;
 ```
 
 ## 🛠️ Tech Stack
 
 ![Express.js](https://img.shields.io/badge/Express.js-000?logo=express&logoColor=white&style=for-the-badge)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4ea94b?logo=mongodb&logoColor=white&style=for-the-badge)
-![Mongoose](https://img.shields.io/badge/Mongoose-800?logo=mongoose&logoColor=white&style=for-the-badge)
-![EJS](https://img.shields.io/badge/EJS-F5F5DC?logo=ejs&logoColor=black&style=for-the-badge)
-![Nodemailer](https://img.shields.io/badge/Nodemailer-80C5DE?logo=nodemailer&logoColor=white&style=for-the-badge)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=for-the-badge)
+![EJS](https://img.shields.io/badge/EJS-F0F0F0?logo=ejs&logoColor=black&style=for-the-badge)
+![Nodemailer](https://img.shields.io/badge/Nodemailer-3399ff?logo=nodemailer&logoColor=white&style=for-the-badge)
+![Mongoose](https://img.shields.io/badge/Mongoose-8B3F4E?logo=mongoose&logoColor=white&style=for-the-badge)
+![JSON Web Tokens](https://img.shields.io/badge/JSON%20Web%20Tokens-000?logo=json-web-tokens&logoColor=white&style=for-the-badge)
 
 ## ⚙️ Setup Instructions
 
@@ -61,26 +56,24 @@ graph TD;
    cd Doctor-Finder
    npm install
    ```
-3. **Environment Setup**:
-   - Create a `.env` file in the root directory and add your MongoDB connection string and other environment variables.
-   ```plaintext
-   DB_CONNECTION_STRING=your_mongodb_connection_string
-   ```
-4. **Start the Server**:
+3. **Environment Variables**:
+   - Create a `.env` file in the root directory.
+   - Add your MongoDB connection string: `mongodburl="your-mongodb-connection-string"`
+   - Add your email credentials for Nodemailer: `EMAIL="your-email@gmail.com"` and `PASSWORD="your-email-password"`
+
+4. **Start the Application**:
    ```bash
    npm start
    ```
-5. **Access the Application**:
-   - Open your web browser and navigate to `http://localhost:3000`.
 
 ## 🤖 GitHub Actions
 
-This project utilizes GitHub Actions for continuous integration and deployment. The workflow is defined in the `.github/workflows/main.yml` file and includes steps for:
+This project utilizes GitHub Actions for continuous integration and deployment. The workflow is defined in `.github/workflows/main.yml` and includes steps for:
 
-- **Checkout Code**: Checks out the repository code.
-- **Install Dependencies**: Installs project dependencies.
-- **Run Tests**: Executes tests (if implemented).
-- **Deploy to Production**: Deploys the application to a production environment.
+- Checkout code
+- Install dependencies
+- Run tests (if implemented)
+- Deploy to Vercel
 
 ```yml
 name: Main Workflow
@@ -101,14 +94,12 @@ jobs:
         run: npm install
 
       - name: Build and deploy
-        run: npm start
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          npm run build
+          vercel deploy --prod
 ```
-
-## 📝 Known Issues and Future Enhancements
-
-- **Symptom Checker Accuracy**: Enhance the symptom checker algorithm for more accurate doctor recommendations.
-- **User Authentication**: Implement more robust authentication mechanisms, including two-factor authentication.
-- **Payment Gateway Integration**: Integrate a secure payment gateway for appointment bookings.
 
 
 
