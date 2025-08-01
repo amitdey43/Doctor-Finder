@@ -194,7 +194,7 @@ function toISTFromUTC(datetime) {
   const date = new Date(datetime);
   const offset = date.getTimezoneOffset();
   if (offset === 0) {
-    return new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
+    return new Date(date.getTime() - (5.5 * 60 * 60 * 1000));
   }
   return date;
 }
