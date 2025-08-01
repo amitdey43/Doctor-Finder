@@ -58,8 +58,8 @@
               <div>
                 <p><strong>Patient:</strong> <%=appo.userid.name%></p>
                 <p><strong>Email:</strong> <%=appo.userid.email%></p>
-                <p><strong>Date:</strong> <%= appo.date.toLocaleDateString() %></p>
-                <p><strong>Time:</strong> <%= appo.date.toLocaleTimeString() %></p>
+                <p><strong>Date:</strong> <%= appo.date.toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata'}) %></p>
+                <p><strong>Time:</strong> <%= appo.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'}) %></p>
               </div>
               <div class="flex gap-3 mt-3">
                 <a href="/reject/<%=appo._id%>" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded text-sm" style="font-weight: 700; ">Reject</a>

@@ -190,26 +190,26 @@ router.get("/list",isloggedin,async (req,res)=>{
     res.render("list",{doctors,appo:a,doc,textarea,special1,special2})
 })
 
-function toISTFromUTC(datetime) {
-  const date = new Date(datetime);
-  const offset = date.getTimezoneOffset();
-  if (offset === 0) {
-    return new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
-  }
-  return date;
-}
+// function toISTFromUTC(datetime) {
+//   const date = new Date(datetime);
+//   const offset = date.getTimezoneOffset();
+//   if (offset === 0) {
+//     return new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
+//   }
+//   return date;
+// }
 
 router.post("/khela/:email", isloggedin, async (req, res) => {
   let d = await doctorModel.findOne({ email: req.params.email });
   let { datetime } = req.body;
-  let datet = toISTFromUTC(datetime);
+  let datet = new Date(datetime);
   let da = datet.getDay();
   let bool = true;
   let today = new Date();
   let maxdate = new Date();
   maxdate.setDate(today.getDate() + 14);
-  today = toISTFromUTC(today).toISOString().slice(0, 16);
-  maxdate = toISTFromUTC(maxdate).toISOString().slice(0, 16);
+  today = new Date(today).toISOString().slice(0, 16);
+  maxdate = new Date(maxdate).toISOString().slice(0, 16);
   let date = datet.toISOString().slice(0, 16);
   if (date < today) {
     return res.status(500).render("page1", { message: "Enter valid date" });
@@ -241,7 +241,7 @@ router.post("/khela/:email", isloggedin, async (req, res) => {
   let r = await appoModel.create({
     userid: uuser._id,
     doctorid: d._id,
-    date: datet
+    date: datet,
   });
   uuser.drList.push(d._id);
   d.userList.push(uuser._id);
