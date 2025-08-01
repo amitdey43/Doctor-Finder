@@ -190,66 +190,65 @@ router.get("/list",isloggedin,async (req,res)=>{
     res.render("list",{doctors,appo:a,doc,textarea,special1,special2})
 })
 
-router.post("/khela/:email",isloggedin,async(req,res)=>{
-    let d= await doctorModel.findOne({email:req.params.email});
-    let {datetime}= req.body;
-    let datet = new Date(datetime);
-    let da= datet.getDay();
-    let bool =true;
-    let today= new Date();
-    let maxdate= new Date();
-    maxdate.setDate(today.getDate()+14)
-    today= today.toISOString().slice(0,16);
-    maxdate= maxdate.toISOString().slice(0,16);
-    let date= datet.toISOString().slice(0,16);
-    if(date<today){
-        return res.status(500).render("page1",{message:"Enter valid date"})
-        // return res.status(500).json({
-        //     success:false,
-        //     message:"Enter valid date"
-        // })
+function toISTFromUTC(datetime) {
+  const date = new Date(datetime);
+  const offset = date.getTimezoneOffset();
+  if (offset === 0) {
+    return new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
+  }
+  return date;
+}
+
+router.post("/khela/:email", isloggedin, async (req, res) => {
+  let d = await doctorModel.findOne({ email: req.params.email });
+  let { datetime } = req.body;
+  let datet = toISTFromUTC(datetime);
+  let da = datet.getDay();
+  let bool = true;
+  let today = new Date();
+  let maxdate = new Date();
+  maxdate.setDate(today.getDate() + 14);
+  today = toISTFromUTC(today).toISOString().slice(0, 16);
+  maxdate = toISTFromUTC(maxdate).toISOString().slice(0, 16);
+  let date = datet.toISOString().slice(0, 16);
+  if (date < today) {
+    return res.status(500).render("page1", { message: "Enter valid date" });
+  }
+  if (date > maxdate) {
+    return res.status(500).render("page1", { message: "Appointments can be booked within 14 days from today" });
+  }
+  d.availabledays.forEach((day) => {
+    if (datedata[day] == da) {
+      bool = false;
     }
-    if(date>maxdate){
-        return res.status(500).render("page1",{message:"Appointments can be booked within 14 days from today"})
-        // return res.status(500).json({
-        //     success:false,
-        //     message:"Appointments can be booked within 14 days from today",
-        // })
-    }
-    d.availabledays.forEach((day)=>{
-        if(datedata[day]==da){
-            bool= false;
-        }
-    })
-    if(bool){
-        return res.status(500).render("page1",{message:`${datadate[da]} is not available for appointment`})
-        // return res.status(500).json({
-        //     success:false,
-        //     message:`${datadate[da]} is not available for appointment`
-        // })
-    }
-    
-    let hour = datet.getHours();
-    let min = datet.getMinutes();
-    let selecttime= hour*60+min;
-    let [sth ,stm]= d.starttime.split(":").map(Number);
-    let [eh ,em]= d.endtime.split(":").map(Number);
-    let st = sth*60+ stm;
-    let en= eh*60+em;
-    if(selecttime>en || selecttime<st){
-        return res.status(500).render("page1",{message:`Book your appointment between ${d.starttime} to ${d.endtime}`})
-    }
-    let uuser = await userModel.findOne({email:req.user.email});
-    let r= await appoModel.create({
-        userid: uuser._id,
-        doctorid: d._id,
-        date: datet
-    })
-    uuser.drList.push(d._id);
-    d.userList.push(uuser._id);
-    await uuser.save();
-    await d.save();
-    const msg = `
+  });
+  if (bool) {
+    return res.status(500).render("page1", { message: `${datadate[da]} is not available for appointment` });
+  }
+
+  let hour = datet.getHours();
+  let min = datet.getMinutes();
+  let selecttime = hour * 60 + min;
+  let [sth, stm] = d.starttime.split(":").map(Number);
+  let [eh, em] = d.endtime.split(":").map(Number);
+  let st = sth * 60 + stm;
+  let en = eh * 60 + em;
+  if (selecttime > en || selecttime < st) {
+    return res.status(500).render("page1", { message: `Book your appointment between ${d.starttime} to ${d.endtime}` });
+  }
+
+  let uuser = await userModel.findOne({ email: req.user.email });
+  let r = await appoModel.create({
+    userid: uuser._id,
+    doctorid: d._id,
+    date: datet
+  });
+  uuser.drList.push(d._id);
+  d.userList.push(uuser._id);
+  await uuser.save();
+  await d.save();
+
+  const msg = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; color: #333;">
         <h2 style="color: #f39c12;">⏳ SymptoCare - Appointment Request Pending</h2>
         
@@ -267,8 +266,8 @@ router.post("/khela/:email",isloggedin,async(req,res)=>{
 
         <h3>📅 Requested Appointment Details:</h3>
         <ul>
-            <li><strong>Date:</strong> ${datet.toLocaleDateString()}</li>
-            <li><strong>Preferred Time Slot:</strong> ${datet.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – ${new Date(datet.getTime() + 30*60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</li>
+            <li><strong>Date:</strong> ${datet.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' })}</li>
+            <li><strong>Preferred Time Slot:</strong> ${datet.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' })} – ${new Date(datet.getTime() + 30 * 60000).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' })}</li>
             <li><strong>Duration:</strong> 30 minutes (approx.)</li>
         </ul>
 
@@ -283,10 +282,11 @@ router.post("/khela/:email",isloggedin,async(req,res)=>{
         <hr style="margin-top: 30px;">
         <small style="color: #999;">This is an automated email. Please do not reply directly to this message.</small>
     </div>
-    `;
+  `;
 
-    sendmail(req.user.email,"SymptoCare Booking Status",msg)
-    const doctorMsg = `
+  sendmail(req.user.email, "SymptoCare Booking Status", msg);
+
+  const doctorMsg = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; color: #333;">
         <h2 style="color: #e67e22;">⏳ Appointment Request Received</h2>
         
@@ -298,8 +298,8 @@ router.post("/khela/:email",isloggedin,async(req,res)=>{
         <ul>
             <li><strong>Patient Name:</strong> ${uuser.name}</li>
             <li><strong>Patient Email:</strong> ${uuser.email}</li>
-            <li><strong>Date:</strong> ${datet.toLocaleDateString()}</li>
-            <li><strong>Time Slot:</strong> ${datet.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – ${(new Date(datet.getTime() + 30 * 60000)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</li>
+            <li><strong>Date:</strong> ${datet.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' })}</li>
+            <li><strong>Time Slot:</strong> ${datet.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' })} – ${new Date(datet.getTime() + 30 * 60000).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' })}</li>
         </ul>
 
         <p>Please log in to the <strong>SymptoCare Doctor Dashboard</strong> to view your appointment list and <strong>confirm or reject</strong> this request.</p>
@@ -313,13 +313,13 @@ router.post("/khela/:email",isloggedin,async(req,res)=>{
         <hr style="margin-top: 30px;">
         <small style="color: #999;">This is an automated email for appointment requests. Please do not reply directly.</small>
     </div>
-    `;
+  `;
 
+  sendmail(d.email, "SymptoCare - New Patient Appointment", doctorMsg);
 
-    sendmail(d.email, "SymptoCare - New Patient Appointment", doctorMsg);
+  res.redirect(`/confirmation/${d.email}`);
+});
 
-    res.redirect(`/confirmation/${d.email}`);
-})
 router.get("/:appoid",async(req,res)=>{
     let a= await appoModel.findOne({_id:req.params.appoid});
     let u= await userModel.findOne({_id:a.userid});
