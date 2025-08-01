@@ -56,7 +56,7 @@
                 d="M8 7V3M16 7V3M4 11h16M5 19h14a2 2 0 002-2v-7H3v7a2 2 0 002 2z" />
             </svg>
             <span class="font-medium">
-            Date: <%= appo.date.toISOString().slice(0,10) %> | Time: <%= appo.date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) %>
+            Date:  <%= appo.date.toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata'}) %> | Time:  <%= appo.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'}) %>
             </span>
         </div>
 
