@@ -202,7 +202,7 @@ function toISTFromUTC(datetime) {
 router.post("/khela/:email", isloggedin, async (req, res) => {
   let d = await doctorModel.findOne({ email: req.params.email });
   let { datetime } = req.body;
-  let datet = toISTFromUTC(datetime);
+  let datet = new Date(datetime);
   let da = datet.getDay();
   let bool = true;
   let today = new Date();
