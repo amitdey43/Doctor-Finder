@@ -190,14 +190,14 @@ router.get("/list",isloggedin,async (req,res)=>{
     res.render("list",{doctors,appo:a,doc,textarea,special1,special2})
 })
 
-// function toISTFromUTC(datetime) {
-//   const date = new Date(datetime);
-//   const offset = date.getTimezoneOffset();
-//   if (offset === 0) {
-//     return new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
-//   }
-//   return date;
-// }
+function toISTFromUTC(datetime) {
+  const date = new Date(datetime);
+  const offset = date.getTimezoneOffset();
+  if (offset === 0) {
+    return new Date(date.getTime() - (5.5 * 60 * 60 * 1000));
+  }
+  return date;
+}
 
 router.post("/khela/:email", isloggedin, async (req, res) => {
   let d = await doctorModel.findOne({ email: req.params.email });
@@ -241,7 +241,7 @@ router.post("/khela/:email", isloggedin, async (req, res) => {
   let r = await appoModel.create({
     userid: uuser._id,
     doctorid: d._id,
-    date: datet,
+    date: toISTFromUTC(datet),
   });
   uuser.drList.push(d._id);
   d.userList.push(uuser._id);

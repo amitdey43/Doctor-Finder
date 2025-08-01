@@ -8,7 +8,7 @@ async function deletee(req, res, next) {
     const now = Date.now();
 
     for (const appo of appointments) {   
-      if (new Date(appo.date) < now) {
+      if (new Date(appo.date.getTime()+(5.5 * 60 * 60 * 1000) ) < now) {
         await appoModel.findByIdAndDelete(appo._id);
       }
     }
