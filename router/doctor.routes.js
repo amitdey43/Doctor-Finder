@@ -211,9 +211,9 @@ router.post("/khela/:email", isloggedin,deleteee,deletee, async (req, res) => {
   let today = new Date();
   let maxdate = new Date();
   maxdate.setDate(today.getDate() + 14);
-  today = toISTFromUTC(today).toISOString().slice(0, 16);
-  maxdate = toISTFromUTC(maxdate).toISOString().slice(0, 16);
-  let date = datet.toISOString().slice(0, 16);
+  today = new Date(today).toISOString().slice(0, 16);
+  maxdate = new Date(maxdate).toISOString().slice(0, 16);
+  let date = toISTFromUTC(datet).toISOString().slice(0, 16);
   if (date < today) {
     return res.status(500).render("page1", { message: "Enter valid date" });
   }
