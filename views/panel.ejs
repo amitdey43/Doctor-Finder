@@ -34,7 +34,7 @@
   </header>
 
   <main class="max-w-4xl mx-auto mt-8 px-4">
-    <h2 class="text-xl font-semibold mb-4 border-b pb-2">Approved Appointments List</h2>
+    <h2 class="text-xl font-semibold mb-4 border-b pb-2"><b>Approved Appointments List</b></h2>
     <p class="mb-2">This list displays approved entries up to 1 hour after the appointment time</p>
     <div class="bg-white shadow-md rounded p-4 space-y-4">
         <%dappos.forEach((dappo)=>{%>
@@ -51,7 +51,7 @@
       
     </div>
 
-    <h2 class="text-xl font-semibold mb-4 border-b pb-2">Pending Appointments List</h2>
+    <h2 class="text-xl font-semibold mb-4 mt-4 border-b pb-2"><b>Pending Appointments List</b></h2>
     <div class="bg-white shadow-md rounded p-4 space-y-4">
         <%appos.forEach((appo)=>{%>
           <%if(appo.status== "pending"){%>
