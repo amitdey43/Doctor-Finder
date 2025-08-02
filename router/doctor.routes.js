@@ -266,8 +266,8 @@ router.post("/khela/:email", isloggedin, async (req, res) => {
 
         <h3>📅 Requested Appointment Details:</h3>
         <ul>
-            <li><strong>Date:</strong> ${datet.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' })}</li>
-            <li><strong>Preferred Time Slot:</strong> ${datet.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' })} – ${new Date(datet.getTime() + 30 * 60000).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' })}</li>
+            <li><strong>Date:</strong> ${r.date.toLocaleDateString('en-IN', {timeZone:'Asia/Kolkata'})}</li>
+            <li><strong>Preferred Time Slot:</strong> ${r.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})} – ${new Date(r.date.getTime()+(30*60*1000) ).toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})}</li>
             <li><strong>Duration:</strong> 30 minutes (approx.)</li>
         </ul>
 
@@ -298,8 +298,8 @@ router.post("/khela/:email", isloggedin, async (req, res) => {
         <ul>
             <li><strong>Patient Name:</strong> ${uuser.name}</li>
             <li><strong>Patient Email:</strong> ${uuser.email}</li>
-            <li><strong>Date:</strong> ${datet.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' })}</li>
-            <li><strong>Time Slot:</strong> ${datet.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' })} – ${new Date(datet.getTime() + 30 * 60000).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' })}</li>
+            <li><strong>Date:</strong> ${r.date.toLocaleDateString('en-IN', {timeZone:'Asia/Kolkata'})}</li>
+            <li><strong>Preferred Time Slot:</strong> ${r.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})} – ${new Date(r.date.getTime()+(30*60*1000) ).toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})}</li>
         </ul>
 
         <p>Please log in to the <strong>SymptoCare Doctor Dashboard</strong> to view your appointment list and <strong>confirm or reject</strong> this request.</p>
@@ -339,7 +339,7 @@ router.get("/:appoid",async(req,res)=>{
             <ul>
                 <li><strong>Patient Name:</strong> ${u.name}</li>
                 <li><strong>Patient Email:</strong> ${u.email}</li>
-                <li><strong>Scheduled Time:</strong> ${new Date(a.date).toLocaleString()}</li>
+                <li><strong>Scheduled Time:</strong> ${appo.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})}</li>
             </ul>
             <p>This slot is now available for new bookings.</p>
             <p style="margin-top: 20px;">Thank you,<br>SymptoCare Team</p>
