@@ -9,8 +9,13 @@ async function deleteee(req, res, next) {
     const now = Date.now();
 
     for (const dappo of appointments) {
-      if (new Date(dappo.date.getTime()+(60*60*1000)) < now) {
-        await drappoModel.findByIdAndDelete(dappo._id);
+      if(new Date(dappo.date)<now){
+        if(dappo.status == "pending"){
+          await drappoModel.findByIdAndDelete(dappo._id);
+        }    
+        else if (new Date(dappo.date.getTime()+(60*60*1000)) < now) {
+          await drappoModel.findByIdAndDelete(dappo._id);
+        }
       }
     }
     next(); 

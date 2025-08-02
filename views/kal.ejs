@@ -7,69 +7,121 @@
   <link rel="shortcut icon" href="/images/favicon.jpeg" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-50 min-h-screen font-sans">
+<body class="bg-blue-50 min-h-screen font-sans ">
 
 
-  <header class="bg-white shadow-md px-4 sm:px-6 py-4 flex justify-around items-center flex-wrap">
+  <header class="bg-white shadow-md px-4 sm:px-6 py-4 flex justify-around items-center flex-wrap" >
     <h1 class="text-2xl sm:text-3xl font-extrabold text-green-600">SymptoCare</h1>
     <span class="text-base sm:text-lg font-medium text-gray-800">My Appointments</span>
   </header>
 
 
+  <p class="mb-4 mt-4 text-center p-4">👉 You can cancel booking till before 1 hr of appointment time<br>👉 Your approved booking show upto 1 hr after appointment time</p>
   <main class="flex flex-wrap justify-center py-8 px-4 gap-6">
     <%if(appos.length==0){%>
       <h1>No booking yet</h1>%>
     <%}else{%>
       <% appos.forEach((appo)=>{ %>
         <%if(appo.status=="approved"){%>
-          <div class="bg-white rounded-2xl shadow-lg w-full max-w-xl p-6 sm:p-8 space-y-6 overflow-x-auto">
-      
-            <div class="text-center">
-              <h2 class="text-xl sm:text-2xl font-bold text-green-600">✅ Appointment Confirmed!</h2>
-              <p class="text-gray-600 mt-2 text-sm">Your appointment has been successfully booked.</p>
-            </div>
-      
-            <div class="bg-gray-100 rounded-lg p-4 sm:p-5 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center">
-              <img src="<%=appo.doctorid.photo%>" class="flex-shrink-0 bg-blue-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-lg font-semibold">
-              <div class="flex-1 space-y-1">
-                <h3 class="text-base sm:text-lg font-semibold text-gray-800">Dr. <%= appo.doctorid.name %></h3>
-                <p class="text-sm text-blue-600"> <%= appo.doctorid.specialities %> • <%= appo.doctorid.experience || 5 %> years experience</p>
-      
-                <div class="mt-3 space-y-1 text-sm text-gray-700">
-                  <div class="flex items-center gap-2">
-                    📅 <span><strong>Date:</strong> <%= appo.date.toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata'}) %> | <strong>Time:</strong> <%= appo.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'}) %></span>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    ⏱ <span><strong>Duration:</strong>Upto 30 minutes</span>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    💰 <span><strong>Fee:</strong> $<%= appo.doctorid.fee %>%></span>
+          <%if(new Date(appo.date.getTime()-(60*60*1000)) < Date.now()){%>
+            <div class="bg-white rounded-2xl shadow-lg w-full max-w-xl p-6 sm:p-8 space-y-6 overflow-x-auto">
+        
+              <div class="text-center">
+                <h2 class="text-xl sm:text-2xl font-bold text-green-600">✅ Appointment Confirmed!</h2>
+                <p class="text-gray-600 mt-2 text-sm">Your appointment has been successfully booked.</p>
+              </div>
+        
+              <div class="bg-gray-100 rounded-lg p-4 sm:p-5 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center">
+                <img src="<%=appo.doctorid.photo%>" class="flex-shrink-0 bg-blue-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-lg font-semibold">
+                <div class="flex-1 space-y-1">
+                  <h3 class="text-base sm:text-lg font-semibold text-gray-800">Dr. <%= appo.doctorid.name %></h3>
+                  <p class="text-sm text-blue-600"> <%= appo.doctorid.specialities %> • <%= appo.doctorid.experience || 5 %> years experience</p>
+        
+                  <div class="mt-3 space-y-1 text-sm text-gray-700">
+                    <div class="flex items-center gap-2">
+                      📅 <span><strong>Date:</strong> <%= appo.date.toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata'}) %> | <strong>Time:</strong> <%= appo.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'}) %></span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      ⏱ <span><strong>Duration:</strong>Upto 30 minutes</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      💰 <span><strong>Fee:</strong> $<%= appo.doctorid.fee %></span>
+                    </div>
                   </div>
                 </div>
               </div>
+        
+              <div>
+                <h4 class="font-semibold text-gray-800 mb-2">What's Next?</h4>
+                <ul class="list-decimal list-inside text-sm text-gray-600 space-y-1">
+                  <li>You'll receive a confirmation email.</li>
+                  <li>Arrive 15 minutes early.</li>
+                  <li>Bring a valid ID and insurance card.</li>
+                </ul>
+              </div>
+        
+              <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                <button type="button"  class="bg-green-600 text-white px-10 py-2 rounded-lg hover:bg-green-700 transition text-center"> Booked </button>
+                <a
+                  target="_blank"
+                  class="calendar-btn bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-center transition w-full sm:w-auto"
+                  data-doctor="<%= appo.doctorid.name %>"
+                  data-date="<%= appo.date.toISOString() %>"
+                >
+                  📅 Add to Calendar
+                </a>
+              </div>
             </div>
-      
-            <div>
-              <h4 class="font-semibold text-gray-800 mb-2">What's Next?</h4>
-              <ul class="list-decimal list-inside text-sm text-gray-600 space-y-1">
-                <li>You'll receive a confirmation email.</li>
-                <li>Arrive 15 minutes early.</li>
-                <li>Bring a valid ID and insurance card.</li>
-              </ul>
+          <%}else{%>
+            <div class="bg-white rounded-2xl shadow-lg w-full max-w-xl p-6 sm:p-8 space-y-6 overflow-x-auto">
+        
+              <div class="text-center">
+                <h2 class="text-xl sm:text-2xl font-bold text-green-600">✅ Appointment Confirmed!</h2>
+                <p class="text-gray-600 mt-2 text-sm">Your appointment has been successfully booked.</p>
+              </div>
+        
+              <div class="bg-gray-100 rounded-lg p-4 sm:p-5 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center">
+                <img src="<%=appo.doctorid.photo%>" class="flex-shrink-0 bg-blue-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-lg font-semibold">
+                <div class="flex-1 space-y-1">
+                  <h3 class="text-base sm:text-lg font-semibold text-gray-800">Dr. <%= appo.doctorid.name %></h3>
+                  <p class="text-sm text-blue-600"> <%= appo.doctorid.specialities %> • <%= appo.doctorid.experience || 5 %> years experience</p>
+        
+                  <div class="mt-3 space-y-1 text-sm text-gray-700">
+                    <div class="flex items-center gap-2">
+                      📅 <span><strong>Date:</strong> <%= appo.date.toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata'}) %> | <strong>Time:</strong> <%= appo.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'}) %></span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      ⏱ <span><strong>Duration:</strong>Upto 30 minutes</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      💰 <span><strong>Fee:</strong> $<%= appo.doctorid.fee %></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+              <div>
+                <h4 class="font-semibold text-gray-800 mb-2">What's Next?</h4>
+                <ul class="list-decimal list-inside text-sm text-gray-600 space-y-1">
+                  <li>You'll receive a confirmation email.</li>
+                  <li>Arrive 15 minutes early.</li>
+                  <li>Bring a valid ID and insurance card.</li>
+                </ul>
+              </div>
+        
+              <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                <a href="/doctor/<%=appo._id%>" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition text-center"> ✖️Cancel Booking</a>
+                <a
+                  target="_blank"
+                  class="calendar-btn bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-center transition w-full sm:w-auto"
+                  data-doctor="<%= appo.doctorid.name %>"
+                  data-date="<%= appo.date.toISOString() %>"
+                >
+                  📅 Add to Calendar
+                </a>
+              </div>
             </div>
-      
-            <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-              <a href="/doctor/<%=appo._id%>" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition text-center"> ✖️Cancel Booking</a>
-              <a
-                target="_blank"
-                class="calendar-btn bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-center transition w-full sm:w-auto"
-                data-doctor="<%= appo.doctorid.name %>"
-                data-date="<%= appo.date.toISOString() %>"
-              >
-                📅 Add to Calendar
-              </a>
-            </div>
-          </div>
+          <%}%>
         <%}%>
       <% }) %>
 

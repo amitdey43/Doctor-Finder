@@ -338,7 +338,7 @@ router.get("/:appoid",async(req,res)=>{
     await doctorModel.findOneAndUpdate({_id:a.doctorid},{
         userList: d.userList.filter((user)=>user.toString() != u._id.toString())
     })
-    await doctorModel.findOneAndDelete({userid:a.userid,doctorid:a.doctorid});
+    await drappoModel.findOneAndDelete({userid:a.userid,doctorid:a.doctorid});
     await appoModel.findOneAndDelete({_id:req.params.appoid});
     const cancelMsg = `
         <div style="font-family: Arial, sans-serif; padding: 20px; background: #ffe6e6; color: #333;">

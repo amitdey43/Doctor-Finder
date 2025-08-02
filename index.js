@@ -161,7 +161,7 @@ app.get("/reject/:appoid",deleteee,deletee,async(req,res)=>{
         await doctorModel.findOneAndUpdate({_id:a.doctorid},{
             userList: d.userList.filter((user)=>user.toString() != u._id.toString())
         })
-        await doctorModel.findOneAndDelete({userid:a.userid,doctorid:a.doctorid});
+        await drappoModel.findOneAndDelete({userid:a.userid,doctorid:a.doctorid});
         await appoModel.findOneAndDelete({_id:req.params.appoid});
         const rejectMail = `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; color: #333;">
