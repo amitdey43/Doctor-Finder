@@ -1,9 +1,10 @@
 const express = require('express');
-const router= express.Router();
+const router = express.Router();
 const {body,validationResult}= require("express-validator");
 const doctorModel= require("../models/doctor");
 const appoModel= require("../models/appointment");
 const userModel = require("../models/user");
+const drappoModel = require("../models/dr_app")
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const isloggedin= require("../middleware/custom")
@@ -15,6 +16,8 @@ const datedata = require("../days/day");
 const datadate = require("../days/day1");
 const sendmail = require("../email/conformationtouser");
 const objectkey = require('../specialities/objectkey');
+const deletee = require("../middleware/deletee");
+const deleteee = require("../middleware/deleteee")
 
 cloudinary.config({
     cloud_name: 'dbenulf4m',
@@ -135,7 +138,7 @@ let stopwords = new Set([
   "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too",
   "very", "can", "will", "just", "don", "should", "now"
 ]);
-router.get("/list",isloggedin,async (req,res)=>{
+router.get("/list",isloggedin,deleteee,deletee,async (req,res)=>{
     let doctors = await doctorModel.find()
     let u = await userModel.findOne({email:req.user.email});
     let a = await appoModel.find({userid:u._id});
@@ -186,8 +189,8 @@ router.get("/list",isloggedin,async (req,res)=>{
         ]
     })
     console.log(doc);
-    
-    res.render("list",{doctors,appo:a,doc,textarea,special1,special2})
+    let special = new Set([special1,special2]);
+    res.render("list",{doctors,appo:a,doc,textarea,special})
 })
 
 function toISTFromUTC(datetime) {
@@ -199,7 +202,7 @@ function toISTFromUTC(datetime) {
   return date;
 }
 
-router.post("/khela/:email", isloggedin, async (req, res) => {
+router.post("/khela/:email", isloggedin,deleteee,deletee, async (req, res) => {
   let d = await doctorModel.findOne({ email: req.params.email });
   let { datetime } = req.body;
   let datet = new Date(datetime);
@@ -243,6 +246,11 @@ router.post("/khela/:email", isloggedin, async (req, res) => {
     doctorid: d._id,
     date: toISTFromUTC(datet),
   });
+  await drappoModel.create({
+    userid: uuser._id,
+    doctorid: d._id,
+    date: toISTFromUTC(datet),
+  })
   uuser.drList.push(d._id);
   d.userList.push(uuser._id);
   await uuser.save();
@@ -330,6 +338,7 @@ router.get("/:appoid",async(req,res)=>{
     await doctorModel.findOneAndUpdate({_id:a.doctorid},{
         userList: d.userList.filter((user)=>user.toString() != u._id.toString())
     })
+    await doctorModel.findOneAndDelete({userid:a.userid,doctorid:a.doctorid});
     await appoModel.findOneAndDelete({_id:req.params.appoid});
     const cancelMsg = `
         <div style="font-family: Arial, sans-serif; padding: 20px; background: #ffe6e6; color: #333;">

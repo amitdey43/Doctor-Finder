@@ -21,71 +21,78 @@
       <div >
         Recommended: Based on your symptoms, we suggest consulting 
          
-          <strong style="color: blue;"><%= special1 %> <%= special2 %></strong>
+          <strong style="color: blue;">
+            <% for(let a of special){%>
+              <%=a%>
+            <%} %>
+          </strong>
         
       </div>
     </div>
     <div>
       <h3 class="text-xl font-semibold mb-4"><b>Recommended Doctors</b></h3>
-
-      <% doc.forEach((doctor)=>{ %>
-        <div class="bg-white rounded-lg shadow-md p-5 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          
-          
-          <div class="flex items-center gap-4" id="left">
-            <img src="<%= doctor.photo %>" class="w-16 h-16 rounded-full object-cover border" alt="Doctor" />
-            <div>
-              <h4 class="font-semibold text-lg">Dr. <%= doctor.name %></h4>
-              <p class="text-sm text-gray-500"><b><%= doctor.specialities %></b></p>
-              <p class="text-sm text-gray-500"><%= doctor.experience %> years experience</p>
-              <p class="text-sm text-gray-500">Clinic: <%= doctor.clinic %></p>
+      <%if(doc.length==0){%>
+        <p class="mb-4"> No  recommended doctor available from this Speciality</p>
+      <%}else{%>
+        <% doc.forEach((doctor)=>{ %>
+          <div class="bg-white rounded-lg shadow-md p-5 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            
+            
+            <div class="flex items-center gap-4" id="left">
+              <img src="<%= doctor.photo %>" class="w-16 h-16 rounded-full object-cover border" alt="Doctor" />
+              <div>
+                <h4 class="font-semibold text-lg">Dr. <%= doctor.name %></h4>
+                <p class="text-sm text-gray-500"><b><%= doctor.specialities %></b></p>
+                <p class="text-sm text-gray-500"><%= doctor.experience %> years experience</p>
+                <p class="text-sm text-gray-500">Clinic: <%= doctor.clinic %></p>
+              </div>
+            </div>
+  
+            
+            <div class="text-right md:text-left" id="right">
+              <div class="flex flex-wrap items-center gap-2 text-sm text-gray-700 mb-2">
+                <span class="font-medium">Available Days:</span>
+                <%if(doctor.availabledays.length < 2){%>
+                  <strong>Currently unavailable</strong>
+                <%}else{%>
+                  <% doctor.availabledays.forEach((day)=>{ %>
+                    <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs"><%= day %></span>
+                  <% }) %>
+                <%}%>
+              </div>
+              <b>Time slot: <%= doctor.starttime%> to <%= doctor.endtime%></b>
+              <p class="text-blue-600 font-bold">$<%= doctor.fee %></p>
+              <p class="text-sm text-gray-500 mb-2">per visit</p>
+  
+              <%
+                let flag = false,mappo;
+                appo.forEach((a) => {
+                  if (a.doctorid.toString() === doctor._id.toString()) {
+                    flag = true;
+                    mappo=a;
+                  }
+                });
+              %>
+              <% if(flag){ %>
+                <button disabled class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition text-center">
+                    <% if (mappo.status === "pending") { %>
+                        <p>🔃 Request: Pending</p>
+                    <% } else { %>
+                        <p>✅ Already Booked</p>
+                    <% } %>
+                </button>
+              <% } else { %>
+                <form action="/doctor/khela/<%= doctor.email %>" method="post" id="asolkhela" class="asolkhela space-y-2 w-full">
+                  <input required type="datetime-local" name="datetime" class="problem-input border w-full p-2 rounded text-sm" />
+                  <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-center">📅 Book Now</button>
+                </form>
+              <% } %>
+  
+  
             </div>
           </div>
-
-          
-          <div class="text-right md:text-left" id="right">
-            <div class="flex flex-wrap items-center gap-2 text-sm text-gray-700 mb-2">
-              <span class="font-medium">Available Days:</span>
-              <%if(doctor.availabledays.length < 2){%>
-                <strong>Currently unavailable</strong>
-              <%}else{%>
-                <% doctor.availabledays.forEach((day)=>{ %>
-                  <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs"><%= day %></span>
-                <% }) %>
-              <%}%>
-            </div>
-            <b>Time slot: <%= doctor.starttime%> to <%= doctor.endtime%></b>
-            <p class="text-blue-600 font-bold">$<%= doctor.fee %></p>
-            <p class="text-sm text-gray-500 mb-2">per visit</p>
-
-            <%
-              let flag = false,mappo;
-              appo.forEach((a) => {
-                if (a.doctorid.toString() === doctor._id.toString()) {
-                  flag = true;
-                  mappo=a;
-                }
-              });
-            %>
-            <% if(flag){ %>
-              <button disabled class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition text-center">
-                  <% if (mappo.status === "pending") { %>
-                      <p>🔃 Request: Pending</p>
-                  <% } else { %>
-                      <p>✅ Already Booked</p>
-                  <% } %>
-              </button>
-            <% } else { %>
-              <form action="/doctor/khela/<%= doctor.email %>" method="post" id="asolkhela" class="asolkhela space-y-2 w-full">
-                <input required type="datetime-local" name="datetime" class="problem-input border w-full p-2 rounded text-sm" />
-                <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-center">📅 Book Now</button>
-              </form>
-            <% } %>
-
-
-          </div>
-        </div>
-      <% }) %>
+        <% }) %>
+      <%}%>
     </div>
 
     

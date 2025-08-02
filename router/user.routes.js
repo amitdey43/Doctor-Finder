@@ -9,10 +9,11 @@ const doctorModel= require("../models/doctor");
 const appoModel= require("../models/appointment");
 const userModel = require("../models/user");
 const deletee= require("../middleware/deletee")
-router.get('/',deletee,async(req,res)=>{
+const deleteee= require("../middleware/deleteee")
+router.get('/',deletee,deleteee,async(req,res)=>{
     res.render("index",{cookies:req.cookies});
 })
-router.get("/symptoms",isloggedin,deletee,(req,res)=>{ 
+router.get("/symptoms",isloggedin,deleteee,deletee,(req,res)=>{ 
     res.render("symptoms");
 })
 router.get("/create",(req,res)=>{

@@ -9,6 +9,7 @@ const {body,validationResult}= require("express-validator");
 const doctorModel= require("./models/doctor");
 const userModel= require("./models/user");
 const appoModel= require("./models/appointment");
+const drappoModel= require("./models/dr_app");
 const deletee= require("./middleware/deletee");
 const deleteee= require("./middleware/deleteee")
 const isloggedin= require("./middleware/custom")
@@ -19,7 +20,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
 const CookieParser = require('cookie-parser');
 const sendmail = require('./email/conformationtouser');
-mongo();
+mongo(); 
 
 app.set('view engine','ejs');
 app.use(express.json());
@@ -29,7 +30,7 @@ app.use(CookieParser());
 
 app.use("/user",userrouter);
 app.use("/doctor",doctorrouter);
-app.get("/",(req,res)=>{
+app.get("/",deletee,deleteee,(req,res)=>{
     if(!req.cookies.token){
         res.redirect("/user")
     }
@@ -45,7 +46,7 @@ app.get("/logout",(req,res)=>{
     res.cookie("token","");
     res.redirect("/user");
 })
-app.get("/available",isloggedin,deletee,async(req,res)=>{
+app.get("/available",isloggedin,deleteee,deletee,async(req,res)=>{
     let searc = req.query.search?.trim() || "";
     searc = RegExp(searc,"i");
     let doctors;
@@ -73,17 +74,18 @@ app.get("/confirmation/:email",isloggedin,async(req,res)=>{
     
     res.render("confirmation",{doctor:d,appo:a});
 })
-app.get("/kal",isloggedin,deletee,async(req,res)=>{
+app.get("/kal",isloggedin,deleteee,deletee,async(req,res)=>{
     let u= await userModel.findOne({email:req.user.email});
     let a= await appoModel.find({userid:u._id}).populate("doctorid")
     res.render("kal",{appos:a})
 })
-app.get("/panel",isloggedin,deleteee,async(req,res)=>{
+app.get("/panel",isloggedin,deleteee,deletee,async(req,res)=>{
     let doctor = await doctorModel.findOne({email:req.user.email});
     let appos = await appoModel.find({doctorid:doctor._id}).populate("userid");
-    res.render("panel",{doctor,appos})
+    let dappos= await drappoModel.find({doctorid:doctor._id}).populate("userid");
+    res.render("panel",{doctor,appos,dappos})
 })
-app.get("/panel/edit",isloggedin,async(req,res)=>{
+app.get("/panel/edit",isloggedin,deleteee,deletee,async(req,res)=>{
     let doctor = await doctorModel.findOne({email:req.user.email});
     res.render("edit",{doctor})
 })
@@ -149,7 +151,7 @@ app.post("/panel/edit/:email",
 
     res.redirect("/panel")  
 })
-app.get("/reject/:appoid",deleteee,async(req,res)=>{
+app.get("/reject/:appoid",deleteee,deletee,async(req,res)=>{
         let a= await appoModel.findOne({_id:req.params.appoid});
         let u= await userModel.findOne({_id:a.userid});
         let d= await doctorModel.findOne({_id:a.doctorid});
@@ -159,6 +161,7 @@ app.get("/reject/:appoid",deleteee,async(req,res)=>{
         await doctorModel.findOneAndUpdate({_id:a.doctorid},{
             userList: d.userList.filter((user)=>user.toString() != u._id.toString())
         })
+        await doctorModel.findOneAndDelete({userid:a.userid,doctorid:a.doctorid});
         await appoModel.findOneAndDelete({_id:req.params.appoid});
         const rejectMail = `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; color: #333;">
@@ -189,12 +192,15 @@ app.get("/reject/:appoid",deleteee,async(req,res)=>{
         sendmail(u.email,"⏳ Appointment Request Unavailable – Please Reschedule",rejectMail);
         res.redirect("/panel")
 })
-app.get("/approved/:appoid",deleteee,async(req,res)=>{
+app.get("/approved/:appoid",deleteee,deletee,async(req,res)=>{
         let a= await appoModel.findOne({_id:req.params.appoid});
         let u= await userModel.findOne({_id:a.userid});
         let d= await doctorModel.findOne({_id:a.doctorid});
+        let e= await drappoModel.findOne({userid:a.userid,doctorid:a.doctorid});
         a.status= "approved";
+        e.status= "approved";
         await a.save();
+        await e.save();
         const msg = `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; color: #333;">
             <h2 style="color: #2ecc71;">✅ SymptoCare - Appointment Confirmed</h2>
