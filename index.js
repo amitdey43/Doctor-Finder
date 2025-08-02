@@ -170,8 +170,8 @@ app.get("/reject/:appoid",deleteee,async(req,res)=>{
 
             <h3>📅 Requested Appointment Details:</h3>
             <ul>
-                <li><strong>Date:</strong> ${new Date(a.date.getTime()+(5.5 * 60 * 60 * 1000) ).toLocaleDateString('en-IN', {timeZone:'Asia/Kolkata'})}</li>
-                <li><strong>Time Slot:</strong> ${new Date(a.date.getTime()+(5.5 * 60 * 60 * 1000) ).toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})} – ${new Date(a.date.getTime()+((5.5 * 60 * 60 * 1000)+30*60*1000) ).toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})}</li>
+                <li><strong>Date:</strong> ${a.date.toLocaleDateString('en-IN', {timeZone:'Asia/Kolkata'})}}</li>
+                <li><strong>Preferred Time Slot:</strong> ${a.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})} – ${new Date(a.date.getTime()+(30*60*1000) ).toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})}</li>
             </ul>
 
             <p><strong>Reason:</strong> The doctor is unavailable at the selected time slot.</p>
@@ -204,8 +204,8 @@ app.get("/approved/:appoid",deleteee,async(req,res)=>{
 
             <h3>📅 Appointment Details:</h3>
             <ul>
-                <li><strong>Date:</strong> ${a.date.toLocaleDateString()}</li>
-                <li><strong>Time Slot:</strong> ${a.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – ${new Date(a.date.getTime() + 30 * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</li>
+                <li><strong>Date:</strong> ${a.date.toLocaleDateString('en-IN', {timeZone:'Asia/Kolkata'})}}</li>
+                <li><strong>Preferred Time Slot:</strong> ${a.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})} – ${new Date(a.date.getTime()+(30*60*1000) ).toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})}</li>
                 <li><strong>Duration:</strong> 30 minutes (approx.)</li>
             </ul>
 

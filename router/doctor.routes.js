@@ -339,7 +339,7 @@ router.get("/:appoid",async(req,res)=>{
             <ul>
                 <li><strong>Patient Name:</strong> ${u.name}</li>
                 <li><strong>Patient Email:</strong> ${u.email}</li>
-                <li><strong>Scheduled Time:</strong> ${appo.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})}</li>
+                <li><strong>Scheduled Time:</strong> ${a.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})}</li>
             </ul>
             <p>This slot is now available for new bookings.</p>
             <p style="margin-top: 20px;">Thank you,<br>SymptoCare Team</p>
