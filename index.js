@@ -210,7 +210,7 @@ app.get("/approved/:appoid",deleteee,deletee,async(req,res)=>{
 
             <h3>📅 Appointment Details:</h3>
             <ul>
-                <li><strong>Date:</strong> ${a.date.toLocaleDateString('en-IN', {timeZone:'Asia/Kolkata'})}}</li>
+                <li><strong>Date:</strong> ${a.date.toLocaleDateString('en-IN', {timeZone:'Asia/Kolkata'})}</li>
                 <li><strong>Preferred Time Slot:</strong> ${a.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})} – ${new Date(a.date.getTime()+(30*60*1000) ).toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})}</li>
                 <li><strong>Duration:</strong> 30 minutes (approx.)</li>
             </ul>
@@ -220,7 +220,7 @@ app.get("/approved/:appoid",deleteee,deletee,async(req,res)=>{
                 <li><strong>Name:</strong> Dr. ${d.name}</li>
                 <li><strong>Specialties:</strong> ${d.specialities}</li>
                 <li><strong>Clinic Address:</strong> ${d.clinic}</li>
-                <li><strong>Consultation Fee:</strong> ₹${d.fee}</li>
+                <li><strong>Consultation Fee:</strong> $${d.fee}</li>
             </ul>
 
             <p>Please reach the clinic <strong>10 minutes early</strong>. Payment is to be made offline.</p>

@@ -269,7 +269,7 @@ router.post("/khela/:email", isloggedin,deleteee,deletee, async (req, res) => {
             <li><strong>Name:</strong> Dr. ${d.name}</li>
             <li><strong>Specialties:</strong> ${d.specialities}</li>
             <li><strong>Clinic Address:</strong> ${d.clinic}</li>
-            <li><strong>Consultation Fee:</strong> ₹${d.fee} (Pay at clinic)</li>
+            <li><strong>Consultation Fee:</strong> $${d.fee} (Pay at clinic)</li>
         </ul>
 
         <h3>📅 Requested Appointment Details:</h3>
@@ -313,7 +313,7 @@ router.post("/khela/:email", isloggedin,deleteee,deletee, async (req, res) => {
         <p>Please log in to the <strong>SymptoCare Doctor Dashboard</strong> to view your appointment list and <strong>confirm or reject</strong> this request.</p>
 
         <p><strong>Clinic Address:</strong> ${d.clinic}</p>
-        <p><strong>Consultation Fee:</strong> ₹${d.fee} (to be collected at clinic)</p>
+        <p><strong>Consultation Fee:</strong> $${d.fee} (to be collected at clinic)</p>
 
         <br/>
         <p style="color: #555;">Thanks,<br/>SymptoCare System</p>
