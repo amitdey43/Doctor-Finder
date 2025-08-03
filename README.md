@@ -22,7 +22,6 @@ Doctors have their own dedicated panel to manage profile details, availability, 
 
 ## 🌟 Key Features
 
-## 📁 Folder Structure
 
 ## 📁 Folder Structure
 
