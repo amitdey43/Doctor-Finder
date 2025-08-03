@@ -24,51 +24,54 @@ Doctors have their own dedicated panel to manage profile details, availability, 
 
 ## 📁 Folder Structure
 
+## 📁 Folder Structure
+
 HACK-PRO/
 ├── config/
-│ ├── db.js
-│ ├── days/
-│ │ ├── day.js
-│ │ └── day1.js
+│   ├── db.js
+│   ├── days/
+│   │   ├── day.js
+│   │   └── day1.js
 ├── email/
-│ └── conformationtouser.js
+│   └── conformationtouser.js
 ├── middleware/
-│ ├── custom.js
-│ ├── deletee.js
-│ └── deleteee.js
+│   ├── custom.js
+│   ├── deletee.js
+│   └── deleteee.js
 ├── models/
-│ ├── appointment.js
-│ ├── doctor.js
-│ ├── dr_app.js
-│ └── user.js
+│   ├── appointment.js
+│   ├── doctor.js
+│   ├── dr_app.js
+│   └── user.js
 ├── node_modules/
 ├── public/
-│ ├── assets/
-│ ├── images/
-│ ├── javascript/
-│ └── stylesheets/
-│ └── style1.css
+│   ├── assets/
+│   ├── images/
+│   ├── javascript/
+│   └── stylesheets/
+│       ├── style1.css
+│       └── style.css
 ├── router/
-│ ├── doctor.routes.js
-│ └── user.routes.js
+│   ├── doctor.routes.js
+│   └── user.routes.js
 ├── specialities/
-│ └── objectkey.js
+│   └── objectkey.js
 ├── views/
-│ ├── available.ejs
-│ ├── confirmation.ejs
-│ ├── create.ejs
-│ ├── createdr.ejs
-│ ├── edit.ejs
-│ ├── index.ejs
-│ ├── kal.ejs
-│ ├── list.ejs
-│ ├── login1.ejs
-│ ├── login.ejs
-│ ├── page1.ejs
-│ ├── page3.ejs
-│ ├── panel.ejs
-│ ├── panel2.ejs
-│ └── symptoms.ejs
+│   ├── available.ejs
+│   ├── confirmation.ejs
+│   ├── create.ejs
+│   ├── createdr.ejs
+│   ├── edit.ejs
+│   ├── index.ejs
+│   ├── kal.ejs
+│   ├── list.ejs
+│   ├── login1.ejs
+│   ├── login.ejs
+│   ├── page1.ejs
+│   ├── page3.ejs
+│   ├── panel.ejs
+│   ├── panel2.ejs
+│   └── symptoms.ejs
 ├── .env
 ├── .gitignore
 ├── index.js
@@ -76,6 +79,7 @@ HACK-PRO/
 ├── package.json
 ├── README.md
 └── vercel.json
+
 
 ### 👤 User Features
 
