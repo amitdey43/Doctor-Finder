@@ -344,10 +344,11 @@ router.get("/:appoid",async(req,res)=>{
         <div style="font-family: Arial, sans-serif; padding: 20px; background: #ffe6e6; color: #333;">
             <h2 style="color: #c0392b;">Appointment Cancelled ❌</h2>
             <p>Dear Dr. ${d.name},</p>
-            <p>The appointment with the following patient has been <strong>cancelled</strong>:</p>
+            <p>The appointment with the following patient has been <strong>cancelled</strong> by patient:</p>
             <ul>
                 <li><strong>Patient Name:</strong> ${u.name}</li>
                 <li><strong>Patient Email:</strong> ${u.email}</li>
+                <li><strong>Date:</strong> ${a.date.toLocaleDateString('en-IN', {timeZone:'Asia/Kolkata'})}</li>
                 <li><strong>Scheduled Time:</strong> ${a.date.toLocaleTimeString('en-IN', {timeZone:'Asia/Kolkata',hour: '2-digit', minute:'2-digit'})}</li>
             </ul>
             <p>This slot is now available for new bookings.</p>
