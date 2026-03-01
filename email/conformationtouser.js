@@ -1,5 +1,5 @@
 require("dotenv").config();
-export const sendmail = async ({ email, subject, message }) => {
+const sendmail = async ({ email, subject, message }) => {
   try {
     const response = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
